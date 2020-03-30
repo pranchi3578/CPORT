@@ -8,6 +8,7 @@ import './screens/choice.dart';
 import './screens/status.dart';
 import './screens/logo.dart';
 import './screens/chooseDept.dart';
+import './screens/chooseFac.dart';
 
 void main() => runApp(MyApp());
 

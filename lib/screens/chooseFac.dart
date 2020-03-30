@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../widgets/bottomBar.dart';
 import '../widgets/grid.dart';
 
-class Department extends StatefulWidget {
-  Department({Key key}) : super(key: key);
+class Faculty extends StatefulWidget {
+  Faculty({Key key}) : super(key: key);
 
-  _DepartmentState createState() => _DepartmentState();
+  _FacultyState createState() => _FacultyState();
 }
 
-class _DepartmentState extends State<Department> {
+class _FacultyState extends State<Faculty> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class _DepartmentState extends State<Department> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        "Choose Department",
+                        "Choose Faculty",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
