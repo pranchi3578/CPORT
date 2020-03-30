@@ -13,7 +13,7 @@ class _NewTicketState extends State<NewTicket> {
   Widget build(BuildContext context) {
     return Scaffold(
       // bottomNavigationBar: BottomBar(),
-      backgroundColor: Colors.red,
+      backgroundColor: Color.fromRGBO(241, 24, 52, 1),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Form(
@@ -37,7 +37,9 @@ class _NewTicketState extends State<NewTicket> {
                       child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 33.0),
+                        padding: const EdgeInsets.only(
+                            left:
+                                33.0), //please use mediaquery for all the metices , so it looks cool on all devices
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -50,7 +52,7 @@ class _NewTicketState extends State<NewTicket> {
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 8, //use mediaquery
                       ),
                       TextFormField(
                         decoration: InputDecoration(
@@ -61,7 +63,7 @@ class _NewTicketState extends State<NewTicket> {
                                     BorderRadius.all(Radius.circular(30)))),
                       ),
                       SizedBox(
-                        height: 12,
+                        height: 12, //use mediaquery
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 33.0),

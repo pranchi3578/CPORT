@@ -10,7 +10,7 @@ class BottomBar extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           GestureDetector(
             onTap: null,
