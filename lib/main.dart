@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oneportal/screens/chat.dart';
 import 'package:oneportal/screens/newTicket.dart';
+import 'package:oneportal/screens/viewTicket.dart';
 
 import './screens/stuLogin.dart';
 import './screens/stuSignup.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'One Portal',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Montserrat'),
-      home: Department(),
+      home: ViewTicket(),
       routes: {
         StudentLogin.routeName: (ctx) => StudentLogin(),
         StudentSignup.routeName: (ctx) => StudentSignup(),
