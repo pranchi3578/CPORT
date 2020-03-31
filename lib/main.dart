@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oneportal/screens/chat.dart';
+
 import 'package:oneportal/screens/newTicket.dart';
 import 'package:oneportal/screens/viewTicket.dart';
 
@@ -10,6 +10,7 @@ import './screens/status.dart';
 import './screens/logo.dart';
 import './screens/chooseDept.dart';
 import './screens/chooseFac.dart';
+import './screens/messages.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,11 +21,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'One Portal',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Montserrat'),
-      home: ViewTicket(),
+      home: Choice(),
       routes: {
         StudentLogin.routeName: (ctx) => StudentLogin(),
         StudentSignup.routeName: (ctx) => StudentSignup(),
-        Chat.routeName: (ctx) => Chat()
       },
     );
   }

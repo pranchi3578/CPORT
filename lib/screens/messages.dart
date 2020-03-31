@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../widgets/bottomBar.dart';
 import '../widgets/cardStatus.dart';
 
-class Status extends StatefulWidget {
+class Messages extends StatefulWidget {
   static const routeName = "/chat";
 
   @override
-  _StatusState createState() => _StatusState();
+  _MessagesState createState() => _MessagesState();
 }
 
-class _StatusState extends State<Status> {
+class _MessagesState extends State<Messages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class _StatusState extends State<Status> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 54),
                         child: Text(
-                          "Status",
+                          "Messages",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
