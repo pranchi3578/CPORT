@@ -83,16 +83,34 @@ class _NewTicketState extends State<NewTicket> {
                           SizedBox(
                             height: height * .0125,
                           ),
-                          TextFormField(
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            minLines: 10,
-                            decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)))),
+                          Container(
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.16),
+                                    blurRadius:
+                                        6.0, // has the effect of softening the shadow
+                                    spreadRadius:
+                                        5.0, // has the effect of extending the shadow
+                                    offset: Offset(
+                                      0, // horizontal, move right 10
+                                      8, // vertical, move down 10
+                                    ),
+                                  )
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                            child: TextFormField(
+                              maxLines: null,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 10,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)))),
+                            ),
                           ),
                           SizedBox(height: height * .018),
                           Padding(
@@ -119,8 +137,8 @@ class _NewTicketState extends State<NewTicket> {
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(30),
-                                          topLeft: Radius.circular(30))),
+                                          bottomLeft: Radius.circular(20),
+                                          topLeft: Radius.circular(20))),
                                   child: Center(
                                     child: InkWell(
                                       child: Text("logo"),
