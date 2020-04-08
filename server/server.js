@@ -5,19 +5,21 @@ const passport = require("passport");
 
 const students = require("./routes/api/students");
 const faculties = require("./routes/api/fuculties");
+const tickets = require("./routes/api/ticket");
 
 const app = express();
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use("/uploads", express.static("uploads"));
 
 // Db Configure
 const db = require("./config/keys").mongoURI;
 
 // Connecting to db
 mongoose
-  .connect(db)
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -40,6 +42,7 @@ app.use((req, res, next) => {
 // Use Routes
 app.use("/api/students", students);
 app.use("/api/faculties", faculties);
+app.use("/api/ticket", tickets);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
