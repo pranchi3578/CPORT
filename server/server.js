@@ -21,10 +21,13 @@ const db = require("./config/keys").mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Passport middleware
-// require("")
+app.use(passport.initialize());
+
+// Passport Config
+require("./config/passport")(passport);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

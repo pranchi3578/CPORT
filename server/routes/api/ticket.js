@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-
 const multer = require("multer");
+const passport = require("passport");
 const Ticket = require("../../models/Ticket");
+
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./uploads");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, new Date().toISOString() + file.originalname);
-  }
+  },
 });
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
@@ -19,12 +19,13 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
+
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 5,
   },
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
 });
 
 router.get("/ticket", (req, res) => {
@@ -32,28 +33,26 @@ router.get("/ticket", (req, res) => {
 });
 
 router.post(
-  "/ticket",
+  "/",
+  passport.authenticate("jwt", { session: false }),
   upload.single("productImage"),
-  // passport.authenticate("jwt", { session: false }),
   (req, res, error) => {
     console.log(req.file);
     const newTicket = new Ticket({
       student: req.user.id,
       content: req.body.content,
       subject: req.body.subject,
-      image: req.file.path
+      image: req.file.path,
     });
     Ticket.findOne({ student: req.user.id })
-      .then(request => {
-        newTicket
-          .save()
-          .then(ticket => res.json(ticket))
-          .catch(err => res.json(err));
+      .then((request) => {
+        newTicket.save();
       })
+      .then((ticket) => res.json(ticket))
 
-      .catch(error => res.json(error));
+      .catch((error) => res.json(error));
 
-    res.status(200).json(res);
+    // res.status(200).json(res);
   }
 );
 module.exports = router;
