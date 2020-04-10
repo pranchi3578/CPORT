@@ -16,26 +16,8 @@ const TicketSchema = new Schema({
     required: true
   },
 
-  image: [
-    {
-      name: {
-        type: String
-      },
-      url: {
-        type: String
-      }
-    }
-  ],
-  doc: [
-    {
-      name: {
-        type: String
-      },
-      url: {
-        type: String
-      }
-    }
-  ]
+  image: [String],
+  doc: [String]
 });
 
 module.exports = Ticket = mongoose.model("tickets", TicketSchema);
