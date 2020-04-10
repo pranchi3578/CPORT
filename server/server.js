@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 // Use Routes
 app.use("/api/students", students);
 app.use("/api/faculties", faculties);
-app.use("/api/ticket", tickets);
+app.use("/api", tickets);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
