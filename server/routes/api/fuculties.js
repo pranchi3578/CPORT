@@ -8,6 +8,7 @@ const passport = require("passport");
 // Load  Schemas
 const Faculty = require("../../models/Faculty");
 const FacultyUser = require("../../models/FacultyUser");
+const Ticket = require("../../models/Ticket");
 
 // Test
 router.get("/test", (req, res) => {
@@ -125,5 +126,24 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+router.get(
+  "/ticketsReceived",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Ticket.find({ fid: req.user.id })
+      .then(tickets => {
+        console.log(tickets);
+        res.status(200).json(tickets);
+      })
+      .catch(err => {
+        console.log(err),
+          res.status(500).json({
+            note: "error report:no tickets found",
+            error: err
+          });
+      });
+  }
+);
 
 module.exports = router;

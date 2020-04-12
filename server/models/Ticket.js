@@ -17,7 +17,11 @@ const TicketSchema = new Schema({
   },
 
   image: [String],
-  doc: [String]
+  doc: [String],
+  fid: {
+    type: Schema.Types.ObjectId,
+    ref: "faculties"
+  }
 });
 
 module.exports = Ticket = mongoose.model("tickets", TicketSchema);

@@ -28,9 +28,18 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.get("/ticket", (req, res) => {
-  res.status(502).json(res);
-});
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.status(502).json(res);
+    Ticket.find({ student: req.user.id })
+      .then(tickets => {
+        console.log(tickets + "are the tickets");
+      })
+      .catch(err => res.status(500).json(err));
+  }
+);
 
 router.post(
   "/",
@@ -43,7 +52,8 @@ router.post(
       student: req.user.id,
       content: req.body.content,
       subject: req.body.subject,
-      image: req.file.path
+      image: req.file.path,
+      fid: req.body.fid
     });
     Ticket.findOne({ student: req.user.id })
       .then(request => {
