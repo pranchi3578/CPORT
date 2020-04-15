@@ -23,32 +23,32 @@ router.post("/", (req, res) => {
     department: req.body.department,
     phone: req.body.phone,
     photo: req.body.photo,
-    email: req.body.email
+    email: req.body.email,
   });
   newFaculty
     .save()
-    .then(fclty => res.json(fclty))
-    .catch(err => res.json(err));
+    .then((fclty) => res.json(fclty))
+    .catch((err) => res.json(err));
 });
 
 // Get all facultydents
 router.get("/", (req, res) => {
   Faculty.findOne({ pfId: req.body.pfId })
-    .then(fclty => res.json(fclty))
-    .catch(err => res.json(err));
+    .then((fclty) => res.json(fclty))
+    .catch((err) => res.json(err));
 });
 
 // Signup
 router.post("/signup", (req, res) => {
   const pfId = req.body.pfId;
   const password = req.body.password;
-  Faculty.findOne({ pfId: pfId }).then(faculty => {
+  Faculty.findOne({ pfId: pfId }).then((faculty) => {
     console.log(faculty);
     if (faculty === null) {
       res.status(404).json({ msg: "Faculty not found" });
       return;
     } else {
-      FacultyUser.findOne({ faculty: faculty._id }).then(user => {
+      FacultyUser.findOne({ faculty: faculty._id }).then((user) => {
         console.log(user);
         if (user) {
           return res.status(400).json("You already registered");
@@ -56,7 +56,7 @@ router.post("/signup", (req, res) => {
           const newUser = new FacultyUser({
             faculty: faculty.id,
             pfId: pfId,
-            password: password
+            password: password,
           });
 
           bcrypt.genSalt(10, (err, salt) => {
@@ -66,10 +66,10 @@ router.post("/signup", (req, res) => {
 
               newUser
                 .save()
-                .then(user => {
+                .then((user) => {
                   const payload = {
                     id: user.id,
-                    pfId: pfId
+                    pfId: pfId,
                   };
                   jwt.sign(
                     payload,
@@ -78,12 +78,12 @@ router.post("/signup", (req, res) => {
                     (err, token) => {
                       res.json({
                         success: true,
-                        token: "Bearer " + token
+                        token: "Bearer " + token,
                       });
                     }
                   );
                 })
-                .catch(err => res.json(err));
+                .catch((err) => res.json(err));
             });
           });
         }
@@ -97,17 +97,17 @@ router.post("/login", (req, res) => {
   pfId = req.body.pfId;
   password = req.body.password;
 
-  FacultyUser.findOne({ pfId: pfId }).then(user => {
+  FacultyUser.findOne({ pfId: pfId }).then((user) => {
     if (!user) {
       // errors.email = "User not found";
       res.status(404).json({ msg: "You are not registered" });
     }
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
         console.log("userid:" + user.id);
         const payload = {
           id: user.id,
-          pfId: pfId
+          pfId: pfId,
         };
         jwt.sign(
           payload,
@@ -116,7 +116,7 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer " + token
+              token: "Bearer " + token,
             });
           }
         );
@@ -129,20 +129,80 @@ router.post("/login", (req, res) => {
 
 router.get(
   "/ticketsReceived",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("faculty", { session: false }),
   (req, res) => {
+    console.log(req.user.id);
     Ticket.find({ fid: req.user.id })
-      .then(tickets => {
+      .then((tickets) => {
         console.log(tickets);
         res.status(200).json(tickets);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err),
           res.status(500).json({
             note: "error report:no tickets found",
-            error: err
+            error: err,
           });
       });
+  }
+);
+
+router.get(
+  "/ticketsReceived/:id",
+  passport.authenticate("faculty", { session: false }),
+  (req, res) => {
+    Ticket.findById(req.params.id)
+      .then((ticket) => {
+        res.status(200).json(ticket);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          note: "error report:no tickets found",
+          error: err,
+        });
+      });
+  }
+);
+
+router.patch(
+  "/ticket/:id",
+  passport.authenticate("faculty", { session: false }),
+  (req, res) => {
+    const status = {
+      approved: req.body.approved,
+      faculty: req.user.id,
+      message: req.body.message,
+    };
+    Ticket.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $push: {
+          status: status,
+        },
+      },
+      { new: true }
+    )
+      .then((ticket) => res.json(ticket))
+      .catch((err) => res.json(err));
+  }
+);
+
+router.patch(
+  "/sendTicket/:id",
+  passport.authenticate("faculty", { session: false }),
+  (req, res) => {
+    fid = req.body.fid;
+    Ticket.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          fid: req.body.fid,
+        },
+      },
+      { new: true }
+    )
+      .then((ticket) => res.json(ticket))
+      .catch((err) => res.json(err));
   }
 );
 
