@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oneportal/widgets/bottomBar.dart';
 
 class NewTicket extends StatefulWidget {
+  static const routeName = "/create-ticket";
   @override
   _NewTicketState createState() => _NewTicketState();
 }

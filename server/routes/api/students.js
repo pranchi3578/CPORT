@@ -22,40 +22,40 @@ router.post("/", (req, res) => {
     department: req.body.department,
     phone: req.body.phone,
     photo: req.body.photo,
-    email: req.body.email
+    email: req.body.email,
   });
   newStudent
     .save()
-    .then(student => res.json(student))
-    .catch(err => res.json(err));
+    .then((student) => res.json(student))
+    .catch((err) => res.json(err));
 });
 
 // Get all students
 router.get("/", (req, res) => {
   Student.findOne({ admissionNumber: req.body.admissionNumber })
-    .then(stu => res.json(stu))
-    .catch(err => res.json(err));
+    .then((stu) => res.json(stu))
+    .catch((err) => res.json(err));
 });
 
 // Signup
 router.post("/signup", (req, res) => {
   const admissionNumber = req.body.admissionNumber;
   const password = req.body.password;
-  Student.findOne({ admissionNumber: admissionNumber }).then(stu => {
+  Student.findOne({ admissionNumber: admissionNumber }).then((stu) => {
     console.log(stu);
     if (stu === null) {
       res.status(404).json({ msg: "Student not found" });
       return;
     } else {
-      StudentUser.findOne({ student: stu._id }).then(user => {
+      StudentUser.findOne({ student: stu._id }).then((user) => {
         console.log(user);
         if (user) {
-          return res.status(400).json("You already registered");
+          return res.status(400).json({ msg: "You already registered" });
         } else {
           const newUser = new StudentUser({
             student: stu.id,
             admissionNumber: admissionNumber,
-            password: password
+            password: password,
           });
 
           bcrypt.genSalt(10, (err, salt) => {
@@ -65,10 +65,10 @@ router.post("/signup", (req, res) => {
 
               newUser
                 .save()
-                .then(user => {
+                .then((user) => {
                   const payload = {
                     id: user.id,
-                    admissionNumber: admissionNumber
+                    admissionNumber: admissionNumber,
                   };
                   jwt.sign(
                     payload,
@@ -77,12 +77,12 @@ router.post("/signup", (req, res) => {
                     (err, token) => {
                       res.json({
                         success: true,
-                        token: "Bearer " + token
+                        token: "Bearer " + token,
                       });
                     }
                   );
                 })
-                .catch(err => res.json(err));
+                .catch((err) => res.json({ msg: "Something went wrong" }));
             });
           });
         }
@@ -96,33 +96,35 @@ router.post("/login", (req, res) => {
   admissionNumber = req.body.admissionNumber;
   password = req.body.password;
 
-  StudentUser.findOne({ admissionNumber: admissionNumber }).then(user => {
-    if (!user) {
-      // errors.email = "User not found";
-      res.status(404).json({ msg: "You are not registered" });
-    }
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        const payload = {
-          id: user.id,
-          admissionNumber: admissionNumber
-        };
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 86400 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
-      } else {
-        return res.status(400).json({ msg: "Incorrect Password" });
+  StudentUser.findOne({ admissionNumber: admissionNumber })
+    .then((user) => {
+      if (!user) {
+        // errors.email = "User not found";
+        res.status(404).json({ msg: "You are not registered" });
       }
-    });
-  });
+      bcrypt.compare(password, user.password).then((isMatch) => {
+        if (isMatch) {
+          const payload = {
+            id: user.id,
+            admissionNumber: admissionNumber,
+          };
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 86400 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token,
+              });
+            }
+          );
+        } else {
+          return res.status(400).json({ msg: "Incorrect Password" });
+        }
+      });
+    })
+    .catch((err) => res.json({ msg: "Something went wrong" }));
 });
 
 module.exports = router;
