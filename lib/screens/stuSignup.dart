@@ -31,10 +31,12 @@ class _StudentSignupState extends State<StudentSignup> {
     });
     const url = 'http://' + GloabalVariables.ip + ':5000/api/students/signup';
     try {
+      print(_authData);
       final response = await http.post(url, body: {
         "admissionNumber": _authData['admissionNumber'],
         "password": _authData['password']
       });
+      print(response.body);
       _data = json.decode(response.body);
       if (_data['token'] == null) {
         setState(() {
@@ -50,7 +52,7 @@ class _StudentSignupState extends State<StudentSignup> {
       setState(() {
         _isLoading = false;
       });
-      return _data['token'];
+      return _data['token']; //endina ithu return cheyunne?
     } catch (err) {
       throw err;
     }
@@ -59,70 +61,82 @@ class _StudentSignupState extends State<StudentSignup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Form(
-      key: _formKey,
-      child: Center(
+        body: SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(),
         child: Container(
-          height: MediaQuery.of(context).copyWith().size.height / 2.5,
-          width: MediaQuery.of(context).copyWith().size.width / 1.5,
-          child: Column(
-            children: <Widget>[
-              if (_data['msg'] != null)
-                Text(
-                  _data['msg'],
-                  style: TextStyle(color: Colors.red),
+          height: MediaQuery.of(context).copyWith().size.height,
+          child: Form(
+            key: _formKey,
+            child: Center(
+              child: Container(
+                height: MediaQuery.of(context).copyWith().size.height / 2.5,
+                width: MediaQuery.of(context).copyWith().size.width / 1.5,
+                child: Column(
+                  children: <Widget>[
+                    if (_data['msg'] != null)
+                      Text(
+                        _data['msg'],
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'please enter a value';
+                        }
+                      },
+                      onSaved: (value) {
+                        _authData['admissionNumber'] = value;
+                      },
+                      decoration: InputDecoration(labelText: "Admission No"),
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Enter Password';
+                        }
+                      },
+                      onSaved: (value) {
+                        _authData['password'] = value;
+                      },
+                      decoration: InputDecoration(labelText: "New Password"),
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Enter Password';
+                        }
+                      },
+                      onSaved: (value) {
+                        _authData['cPassword'] = value;
+                      },
+                      decoration:
+                          InputDecoration(labelText: "Re-EnterPassword"),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (_isLoading)
+                      Container(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator())
+                    else
+                      RaisedButton(
+                        onPressed: _signup,
+                        child: Text('Submit'),
+                      ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Login'))
+                  ],
                 ),
-              TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'please enter a value';
-                  }
-                },
-                onSaved: (value) {
-                  _authData['admissionNumber'] = value;
-                },
-                decoration: InputDecoration(labelText: "Admission No"),
               ),
-              TextFormField(
-                obscureText: true,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Enter Password';
-                  }
-                },
-                onSaved: (value) {
-                  _authData['password'] = value;
-                },
-                decoration: InputDecoration(labelText: "New Password"),
-              ),
-              TextFormField(
-                obscureText: true,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Enter Password';
-                  }
-                },
-                onSaved: (value) {
-                  _authData['cPassword'] = value;
-                },
-                decoration: InputDecoration(labelText: "Re-EnterPassword"),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              if (_isLoading)
-                CircularProgressIndicator()
-              else
-                RaisedButton(
-                  onPressed: _signup,
-                  child: Text('Submit'),
-                ),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Login'))
-            ],
+            ),
           ),
         ),
       ),

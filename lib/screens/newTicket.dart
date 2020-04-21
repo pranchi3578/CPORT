@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:oneportal/widgets/bottomBar.dart';
 
@@ -9,6 +11,23 @@ class NewTicket extends StatefulWidget {
 
 class _NewTicketState extends State<NewTicket> {
   final _formKey = GlobalKey<FormState>();
+  var _isLoading = false;
+  Map<String, dynamic> _ticketData = {
+    'subject': '',
+    'content': '',
+    'image': []
+  };
+  Map<String, dynamic> _data = Map<String, dynamic>();
+
+  Future<void> _checkForm() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    setState() {
+      _isLoading = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +77,14 @@ class _NewTicketState extends State<NewTicket> {
                             height: height * .0125, //use mediaquery
                           ),
                           TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'please enter a value';
+                              }
+                            },
+                            onSaved: (value) {
+                              _ticketData['subject'] = value;
+                            },
                             decoration: InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -102,6 +129,9 @@ class _NewTicketState extends State<NewTicket> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50))),
                             child: TextFormField(
+                              onSaved: (value) {
+                                _ticketData['content'] = value;
+                              },
                               maxLines: null,
                               keyboardType: TextInputType.multiline,
                               minLines: 10,
