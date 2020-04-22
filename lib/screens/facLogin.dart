@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:oneportal/screens/GlobalVariables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 //import './stuSignup.dart';
 
 class FacultyLogin extends StatefulWidget {
@@ -9,12 +13,43 @@ class FacultyLogin extends StatefulWidget {
 
 class _FacultyLoginState extends State<FacultyLogin> {
   final _formKey = GlobalKey<FormState>();
-  Map<String, String> _authdata = {'admissionNo': '', 'password': ''};
-  checkform() {
+  var _isLoading = false;
+  Map<String, String> _authdata = {'pfId': '', 'password': ''};
+  Map<String, dynamic> _data = Map<String, dynamic>();
+
+  Future<void> _checkform() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    const url = 'http://' + GloabalVariables.ip + ':5000/api/faculties/login';
+    try {
+      print(_authdata);
+      final response = await http.post(url,
+          body: {'pfId': _authdata['pfId'], 'password': _authdata['password']});
+      print(response.body);
+      _data = json.decode(response.body);
+      if (_data['token'] == null) {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.setString('jwt', _data['token']);
+      Navigator.of(context).pushReplacementNamed('/create-ticket');
+      setState(() {
+        _isLoading = false;
+      });
+      return _data['token'];
+    } catch (err) {
+      throw (err);
+    }
 
     Navigator.of(context).pushNamed("/studentSignup");
 
@@ -79,7 +114,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
                               return null;
                             },
                             onSaved: (value) {
-                              _authdata['admissionNo'] = value;
+                              _authdata['pfId'] = value;
                             },
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -132,24 +167,30 @@ class _FacultyLoginState extends State<FacultyLogin> {
                             ),
                           ),
                         ),
-                        ButtonTheme(
-                          minWidth: 312,
-                          height: 39,
-                          buttonColor: Colors.white,
-                          child: RaisedButton(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
-                            onPressed: checkform,
-                            child: Text(
-                              'login',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Color.fromRGBO(241, 24, 52, 1),
-                                fontSize: 12,
+                        if (_isLoading)
+                          Container(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator())
+                        else
+                          ButtonTheme(
+                            minWidth: 312,
+                            height: 39,
+                            buttonColor: Colors.white,
+                            child: RaisedButton(
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25)),
+                              onPressed: _checkform,
+                              child: Text(
+                                'login',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Color.fromRGBO(241, 24, 52, 1),
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
-                          ),
-                        )
+                          )
                       ],
                     ),
                   ),
