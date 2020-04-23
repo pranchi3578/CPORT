@@ -1,16 +1,44 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/bottomBar.dart';
 import '../widgets/cardStatus.dart';
+import 'package:oneportal/screens/GlobalVariables.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Status extends StatefulWidget {
-  static const routeName = "/chat";
+  static const routeName = "/status";
 
   @override
   _StatusState createState() => _StatusState();
 }
 
 class _StatusState extends State<Status> {
+  var _isLoading = false;
+  List<dynamic> _status = List<dynamic>();
+
   @override
+  void initState() {
+    super.initState();
+    _statusAsyncMethod();
+  }
+
+  SharedPreferences sp;
+  Future<void> _statusAsyncMethod() async {
+    const url = 'http://' + GloabalVariables.ip + ':5000/api/tickets';
+    try {
+      sp = await SharedPreferences.getInstance();
+      final response = await http.get(url,
+          headers: {HttpHeaders.authorizationHeader: sp.getString('jwt')});
+      _status = json.decode(response.body);
+      print(_status);
+    } catch (err) {
+      throw (err);
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(241, 24, 52, 1),
@@ -42,28 +70,14 @@ class _StatusState extends State<Status> {
                           SliverPadding(
                             padding: const EdgeInsets.all(20),
                             sliver: SliverGrid.count(
-                              crossAxisSpacing: 35,
-                              mainAxisSpacing: 19,
-                              crossAxisCount: 2,
-                              children: <Widget>[
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus(),
-                                CardStatus()
-                              ],
-                            ),
+                                crossAxisSpacing: 35,
+                                mainAxisSpacing: 19,
+                                crossAxisCount: 2,
+                                children: <Widget>[
+                                  Column(
+                                    children: <Widget>[],
+                                  )
+                                ]),
                           ),
                         ],
                       )

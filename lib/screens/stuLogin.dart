@@ -44,7 +44,7 @@ class _StudentLoginState extends State<StudentLogin> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt', _data['token']);
 
-      Navigator.of(context).pushReplacementNamed('/create-ticket');
+      Navigator.of(context).pushReplacementNamed('/status');
       setState(() {
         _isLoading = false;
       });
