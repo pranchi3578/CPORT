@@ -34,6 +34,9 @@ router.get(
   (req, res) => {
     Ticket.find({ student: req.user.id })
       .then((tickets) => {
+        if (tickets.length === 0) {
+          return res.status(404).json({ err: "No tickets found" });
+        }
         res.json(tickets);
         console.log(tickets + "are the tickets");
       })
