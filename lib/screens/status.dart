@@ -19,14 +19,21 @@ class _StatusState extends State<Status> {
   var _isLoading = false;
   List<dynamic> _status = List<dynamic>();
 
+  @override
+  void initState() {
+    super.initState();
+    _statusAsyncMethod();
+  }
+
   SharedPreferences sp;
-  Future _fetchTickets() async {
+  Future<void> _statusAsyncMethod() async {
     const url = 'http://' + GloabalVariables.ip + ':5000/api/tickets';
     try {
       sp = await SharedPreferences.getInstance();
       final response = await http.get(url,
           headers: {HttpHeaders.authorizationHeader: sp.getString('jwt')});
-      return json.decode(response.body);
+      _status = json.decode(response.body);
+      print(_status);
     } catch (err) {
       throw (err);
     }
@@ -56,29 +63,24 @@ class _StatusState extends State<Status> {
                               fontSize: 26),
                         ),
                       ),
-                      FutureBuilder(
-                        future: _fetchTickets(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Center(
-                                      child: new CircularProgressIndicator()));
-                            default:
-                              if (snapshot.hasError)
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 30),
-                                  child: Center(
-                                      child: new Text('No Tickets found')),
-                                );
-                              else {
-                                return CardStatus(tickets: snapshot.data);
-                              }
-                          }
-                        },
-                      ),
+                      CustomScrollView(
+                        primary: false,
+                        shrinkWrap: true,
+                        slivers: <Widget>[
+                          SliverPadding(
+                            padding: const EdgeInsets.all(20),
+                            sliver: SliverGrid.count(
+                                crossAxisSpacing: 35,
+                                mainAxisSpacing: 19,
+                                crossAxisCount: 2,
+                                children: <Widget>[
+                                  Column(
+                                    children: <Widget>[],
+                                  )
+                                ]),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
