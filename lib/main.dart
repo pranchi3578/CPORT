@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
         StudentLogin.routeName: (ctx) => StudentLogin(),
         StudentSignup.routeName: (ctx) => StudentSignup(),
         NewTicket.routeName: (ctx) => NewTicket(),
-        Status.routeName: (ctx) => Status()
+        Status.routeName: (ctx) => Status(),
+        Department.routeName: (ctx) => Department(),
+        ChooseFaculty.routeName: (ctx) => ChooseFaculty()
       },
     );
   }

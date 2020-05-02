@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import './chooseDept.dart';
 import 'package:flutter/material.dart';
+import 'package:oneportal/screens/GlobalVariables.dart';
 import 'package:oneportal/widgets/bottomBar.dart';
 
 class NewTicket extends StatefulWidget {
@@ -12,11 +13,7 @@ class NewTicket extends StatefulWidget {
 class _NewTicketState extends State<NewTicket> {
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
-  Map<String, dynamic> _ticketData = {
-    'subject': '',
-    'content': '',
-    'image': []
-  };
+  Map<String, dynamic> ticketData = {'subject': '', 'content': '', 'image': []};
   Map<String, dynamic> _data = Map<String, dynamic>();
 
   Future<void> _checkForm() async {
@@ -27,6 +24,11 @@ class _NewTicketState extends State<NewTicket> {
     setState() {
       _isLoading = true;
     }
+
+    print(ticketData);
+
+    Navigator.pushNamed(context, Department.routeName,
+        arguments: Department(content: ticketData));
   }
 
   @override
@@ -83,7 +85,7 @@ class _NewTicketState extends State<NewTicket> {
                               }
                             },
                             onSaved: (value) {
-                              _ticketData['subject'] = value;
+                              ticketData['subject'] = value;
                             },
                             decoration: InputDecoration(
                                 fillColor: Colors.white,
@@ -130,7 +132,7 @@ class _NewTicketState extends State<NewTicket> {
                                     BorderRadius.all(Radius.circular(50))),
                             child: TextFormField(
                               onSaved: (value) {
-                                _ticketData['content'] = value;
+                                ticketData['content'] = value;
                               },
                               maxLines: null,
                               keyboardType: TextInputType.multiline,
@@ -188,6 +190,7 @@ class _NewTicketState extends State<NewTicket> {
                                           topRight: Radius.circular(30))),
                                   child: Center(
                                     child: InkWell(
+                                      onTap: _checkForm,
                                       child: Text(
                                         "Send",
                                         style: TextStyle(

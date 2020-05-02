@@ -9,6 +9,7 @@ const passport = require("passport");
 const Student = require("../../models/Student");
 const StudentUser = require("../../models/StudentUser");
 const Ticket = require("../../models/Ticket");
+const Faculty = require("../../models/Faculty");
 
 // Test
 router.get("/test", (req, res) => {
@@ -128,4 +129,17 @@ router.post("/login", (req, res) => {
     .catch(err => res.json({ msg: "Something went wrong" }));
 });
 
+router.get(
+  "/getfId",
+  passport.authenticate("student", { session: false }),
+  (req, res) => {
+    department = req.body.deptName;
+    Faculty.find({ department: department }).then(faculty => {
+      res.json({
+        msg: "faculty id found",
+        pfId: faculty.pfId
+      });
+    });
+  }
+);
 module.exports = router;
