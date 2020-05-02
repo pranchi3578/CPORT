@@ -23,6 +23,7 @@ class _FacultyState extends State<ChooseFaculty> {
   var _isLoading = false;
   dynamic _pfId;
   SharedPreferences sp;
+  List<Widget> faculties = List();
 
   @override
   void didChangeDependencies() {
@@ -37,29 +38,19 @@ class _FacultyState extends State<ChooseFaculty> {
   }
 
   Future fetchpfId() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    sp = await SharedPreferences.getInstance();
+    final url = 'http://' +
+        GloabalVariables.ip +
+        ':5000/api/students/getfId/${_department}';
     try {
-      final queryParameters = {
-        'deptName': _department,
-      };
+      setState(() {
+        _isLoading = true;
+      });
+      sp = await SharedPreferences.getInstance();
       final headers = {HttpHeaders.authorizationHeader: sp.getString('jwt')};
-      final uri = Uri.http(
-          'http://' + GloabalVariables.ip + ':5000/api/students',
-          '/getfId',
-          queryParameters);
-      final response = await http.get(uri, headers: headers);
-
+      final response = await http.get(url, headers: headers);
       _pfId = json.decode(response.body);
-      print("THIS IS PFID KOOOOOOOOOOI");
       print(_pfId);
-    }
-    // Storing token in Shared preference
-
-    catch (err) {
+    } catch (err) {
       throw err;
     }
 
