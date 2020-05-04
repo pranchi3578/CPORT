@@ -38,6 +38,7 @@ class _DepartmentState extends State<Department> {
           value: items[key],
           chooseDept: (String) => selectedDept(String)));
     }
+    print(dept);
 
     super.initState();
   }
