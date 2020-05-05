@@ -22,6 +22,7 @@ class ChooseFaculty extends StatefulWidget {
 class _FacultyState extends State<ChooseFaculty> {
   @override
   var _department;
+  var _contentFetched;
   var _isLoading = false;
   var _pfId;
   dynamic _dataFetched;
@@ -33,9 +34,11 @@ class _FacultyState extends State<ChooseFaculty> {
     super.didChangeDependencies();
     final ChooseFaculty args = ModalRoute.of(context).settings.arguments;
     _department = args.departmentSelected;
+    _contentFetched = args.contentPassed;
     print("_argument value");
     print(args.contentPassed);
     print(_department);
+    print(_contentFetched);
   }
 
   Future _fetchpfId() async {
@@ -66,8 +69,26 @@ class _FacultyState extends State<ChooseFaculty> {
     setState(() {
       _pfId = pfId;
     });
-    if (_pfId != null) print(_pfId);
+    if (_pfId != null) {
+      print(_pfId);
+      writeToDb();
+    }
     Navigator.pushNamed(context, Status.routeName);
+  }
+
+  Future writeToDb() async {
+    final url = "http://" + GloabalVariables.ip + ':5000/api/tickets/${_pfId}}';
+    try {
+      sp = await SharedPreferences.getInstance();
+      final headers = {HttpHeaders.authorizationHeader: sp.getString('jwt')};
+      final response = await http.post(url, headers: headers, body: {
+        'content': _contentFetched['content'],
+        'subject': _contentFetched['subject'],
+      });
+      return json.decode(response.body);
+    } catch (err) {
+      throw (err);
+    }
   }
 
   @override
@@ -115,7 +136,8 @@ class _FacultyState extends State<ChooseFaculty> {
                               else {
                                 return GridFaculty(
                                     content: snapshot.data,
-                                    chooseFac: (int) => selectedFac(int));
+                                    chooseFac: (dynamic) =>
+                                        selectedFac(dynamic));
                               }
                           }
                         },
