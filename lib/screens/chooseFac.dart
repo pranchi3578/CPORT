@@ -76,8 +76,9 @@ class _FacultyState extends State<ChooseFaculty> {
     Navigator.pushNamed(context, Status.routeName);
   }
 
+  @override
   Future writeToDb() async {
-    final url = "http://" + GloabalVariables.ip + ':5000/api/tickets/${_pfId}}';
+    final url = "http://" + GloabalVariables.ip + ':5000/api/tickets/$_pfId';
     try {
       sp = await SharedPreferences.getInstance();
       final headers = {HttpHeaders.authorizationHeader: sp.getString('jwt')};
@@ -136,8 +137,7 @@ class _FacultyState extends State<ChooseFaculty> {
                               else {
                                 return GridFaculty(
                                     content: snapshot.data,
-                                    chooseFac: (dynamic) =>
-                                        selectedFac(dynamic));
+                                    chooseFac: (int) => selectedFac(int));
                               }
                           }
                         },

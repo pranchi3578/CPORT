@@ -43,22 +43,16 @@ router.get(
 );
 
 router.post(
-  "/:pfid",
+  "/:fid",
   passport.authenticate("student", { session: false }),
   (req, res, error) => {
     var identity;
     console.log("hiii");
-    Faculty.findOne({ pfId: req.params.pfid })
-      .then(fac => {
-        console.log(fac);
-        identity = fac._id;
-      })
-      .catch(er => res.json(er));
     const newTicket = new Ticket({
       student: req.user.id,
       content: req.body.content,
       subject: req.body.subject,
-      fid: identity
+      fid: req.params.fid
     });
     Ticket.findOne({ student: req.user.id })
       .then(request => {

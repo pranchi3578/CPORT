@@ -4,40 +4,40 @@ const Schema = mongoose.Schema;
 const TicketSchema = new Schema({
   student: {
     type: Schema.Types.ObjectId,
-    ref: "studentUser",
+    ref: "studentUser"
   },
   fid: {
-    type: Schema.Types.ObjectId,
-    ref: "faculties",
+    type: Number,
+    required: true
   },
   status: [
     {
       faculty: {
         type: Schema.Types.ObjectId,
-        ref: "faculties",
+        ref: "faculties"
       },
       approved: {
         type: Boolean,
-        default: false,
+        default: false
       },
       message: {
-        type: String,
-      },
-    },
+        type: String
+      }
+    }
   ],
 
   subject: {
     type: String,
-    required: true,
+    required: true
   },
 
   content: {
     type: String,
-    required: true,
+    required: true
   },
 
   image: [String],
-  doc: [String],
+  doc: [String]
 });
 
 module.exports = Ticket = mongoose.model("tickets", TicketSchema);

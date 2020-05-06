@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GridFaculty extends StatelessWidget {
   final dynamic content;
-  final Function(dynamic) chooseFac;
+  final Function(int) chooseFac;
   const GridFaculty({Key key, this.content, this.chooseFac}) : super(key: key);
 
   _createGrid() {
