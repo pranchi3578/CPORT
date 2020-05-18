@@ -3,6 +3,7 @@ import 'package:oneportal/screens/GlobalVariables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './facStatus.dart';
 //import './stuSignup.dart';
 
 class FacultyLogin extends StatefulWidget {
@@ -42,7 +43,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
       }
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('jwt', _data['token']);
-      Navigator.of(context).pushReplacementNamed('/create-ticket');
+      Navigator.of(context).pushReplacementNamed('/facStatus');
       setState(() {
         _isLoading = false;
       });

@@ -36,6 +36,7 @@ class _NewTicketState extends State<NewTicket> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Color.fromRGBO(241, 24, 52, 1),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -136,7 +137,7 @@ class _NewTicketState extends State<NewTicket> {
                               },
                               maxLines: null,
                               keyboardType: TextInputType.multiline,
-                              minLines: 10,
+                              minLines: 5,
                               decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,

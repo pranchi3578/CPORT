@@ -15,6 +15,8 @@ import './screens/logo.dart';
 import './screens/chooseDept.dart';
 import './screens/chooseFac.dart';
 import './screens/messages.dart';
+import './screens/facStatus.dart';
+import './screens/facApplicationView.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,14 +27,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'One Portal',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Montserrat'),
-      home: StudentLogin(),
+      home: FacApplicationView(),
       routes: {
         StudentLogin.routeName: (ctx) => StudentLogin(),
         StudentSignup.routeName: (ctx) => StudentSignup(),
         NewTicket.routeName: (ctx) => NewTicket(),
         Status.routeName: (ctx) => Status(),
         Department.routeName: (ctx) => Department(),
-        ChooseFaculty.routeName: (ctx) => ChooseFaculty()
+        ChooseFaculty.routeName: (ctx) => ChooseFaculty(),
+        FacStatus.routeName: (ctx) => FacStatus()
       },
     );
   }
