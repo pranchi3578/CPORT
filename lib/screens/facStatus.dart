@@ -7,6 +7,7 @@ import '../widgets/facStatusCard.dart';
 import 'package:oneportal/screens/GlobalVariables.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './facApplicationView.dart';
 //you should check the back end code. coz it is trying to connect to ticket schema
 //using fid, but actually fid is just an integer number as per we assign during
 //ticket creation, u may change it(at the fac selection) to return the user _id as string and store it to fid.
@@ -20,7 +21,7 @@ class FacStatus extends StatefulWidget {
 
 class _FacStatusState extends State<FacStatus> {
   var _isLoading = false;
-  List<dynamic> _status = List<dynamic>();
+  dynamic _personalInfo;
 
   SharedPreferences sp;
   Future _fetchTickets() async {
@@ -34,6 +35,28 @@ class _FacStatusState extends State<FacStatus> {
     } catch (err) {
       throw (err);
     }
+  }
+
+  _selectedTicket(dynamic ticket) async {
+    print(ticket['student']);
+    final url = 'http://' +
+        GloabalVariables.ip +
+        ':5000/api/faculties/getStudentInfo/${ticket['student']}';
+    try {
+      sp = await SharedPreferences.getInstance();
+      final response = await http.get(url,
+          headers: {HttpHeaders.authorizationHeader: sp.getString('jwt')});
+
+      _personalInfo = json.decode(response.body);
+      print("printing personal info");
+      print(_personalInfo);
+    } catch (err) {
+      throw (err);
+    }
+
+    Navigator.pushNamed(context, FacApplicationView.routeName,
+        arguments: FacApplicationView(
+            contentPassed: ticket, personalInfo: _personalInfo));
   }
 
   Widget build(BuildContext context) {
@@ -79,7 +102,10 @@ class _FacStatusState extends State<FacStatus> {
                                       child: new Text('No Tickets found')),
                                 );
                               else {
-                                return FacCardStatus(tickets: snapshot.data);
+                                return FacCardStatus(
+                                    tickets: snapshot.data,
+                                    chooseTicket: (dynamic) =>
+                                        _selectedTicket(dynamic));
                               }
                           }
                         },

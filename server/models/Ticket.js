@@ -7,7 +7,7 @@ const TicketSchema = new Schema({
     ref: "studentUser"
   },
   fid: {
-    type: Number,
+    type: String,
     required: true
   },
   status: [
@@ -17,8 +17,8 @@ const TicketSchema = new Schema({
         ref: "faculties"
       },
       approved: {
-        type: Boolean,
-        default: false
+        type: Number,
+        default: 3
       },
       message: {
         type: String

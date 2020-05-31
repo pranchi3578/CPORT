@@ -42,7 +42,7 @@ class _FacultySignupState extends State<FacultySignup> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt', _data['token']);
 
-      Navigator.of(context).pushReplacementNamed('/create-ticket');
+      Navigator.of(context).pushReplacementNamed('/facStatus');
       setState(() {
         _isLoading = false;
       });

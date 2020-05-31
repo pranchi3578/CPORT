@@ -9,6 +9,8 @@ const passport = require("passport");
 const Faculty = require("../../models/Faculty");
 const FacultyUser = require("../../models/FacultyUser");
 const Ticket = require("../../models/Ticket");
+const StudentUser = require("../../models/StudentUser");
+const Student = require("../../models/Student");
 
 // Test
 router.get("/test", (req, res) => {
@@ -128,22 +130,47 @@ router.post("/login", (req, res) => {
 });
 
 router.get(
+  "/getStudentInfo/:sid",
+  passport.authenticate("faculty", { session: false }),
+  (req, res) => {
+    StudentUser.findById(req.params.sid)
+      .then(user =>
+        Student.findOne({ admissionNumber: user.admissionNumber })
+          .then(studentInfo => {
+            res.json(studentInfo);
+          })
+          .catch(err => console.log(err))
+      )
+      .catch(error => console.log(error));
+  }
+);
+
+router.get(
   "/ticketsReceived",
   passport.authenticate("faculty", { session: false }),
   (req, res) => {
+    fid = 0;
     console.log(req.user.id);
-    Ticket.find({ fid: req.user.id })
-      .then(tickets => {
-        console.log(tickets);
-        res.status(200).json(tickets);
-      })
-      .catch(err => {
-        console.log(err),
-          res.status(500).json({
-            note: "error report:no tickets found",
-            error: err
+
+    FacultyUser.findOne({ _id: req.user._id })
+      .then(item => {
+        fid = item.pfId;
+        console.log(fid);
+
+        Ticket.find({ fid: fid })
+          .then(tickets => {
+            console.log(tickets);
+            res.status(200).json(tickets);
+          })
+          .catch(err => {
+            console.log(err),
+              res.status(500).json({
+                note: "error report:no tickets found",
+                error: err
+              });
           });
-      });
+      })
+      .catch(err => console.log(err));
   }
 );
 

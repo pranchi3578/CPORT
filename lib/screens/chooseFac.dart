@@ -56,7 +56,9 @@ class _FacultyState extends State<ChooseFaculty> {
     } catch (err) {
       throw err;
     }
-
+    setState(() {
+      _isLoading = false;
+    });
     //Navigator.of(context).pushNamed("/studentSignup");
 
     //   Navigator.push(
@@ -65,14 +67,18 @@ class _FacultyState extends State<ChooseFaculty> {
     //   );
   }
 
-  void selectedFac(pfId) {
+  void selectedFac(pfId) async {
     setState(() {
       _pfId = pfId;
+      _isLoading = true;
     });
     if (_pfId != null) {
       print(_pfId);
-      writeToDb();
+      await writeToDb();
     }
+    setState(() {
+      _isLoading = false;
+    });
     Navigator.pushNamed(context, Status.routeName);
   }
 
@@ -98,63 +104,67 @@ class _FacultyState extends State<ChooseFaculty> {
     // print(args.departmentSelected);
     return Scaffold(
       backgroundColor: Color.fromRGBO(241, 24, 52, 1),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(
-            0, MediaQuery.of(context).copyWith().size.width / 5.8065, 0, 0),
-        child: Center(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).copyWith().size.height,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "Choose Faculty",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26),
+      body: _isLoading
+          ? CircularProgressIndicator()
+          : Padding(
+              padding: EdgeInsets.fromLTRB(0,
+                  MediaQuery.of(context).copyWith().size.width / 5.8065, 0, 0),
+              child: Center(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).copyWith().size.height,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Choose Faculty",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 26),
+                            ),
+                            FutureBuilder(
+                              future: _fetchpfId(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Container(
+                                        margin: EdgeInsets.only(top: 20),
+                                        child: Center(
+                                            child:
+                                                new CircularProgressIndicator()));
+                                  default:
+                                    if (snapshot.hasError ||
+                                        snapshot.data.length == 0)
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 30),
+                                        child: Center(
+                                            child:
+                                                new Text('No faculty  found')),
+                                      );
+                                    else {
+                                      return GridFaculty(
+                                          content: snapshot.data,
+                                          chooseFac: (int) => selectedFac(int));
+                                    }
+                                }
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      FutureBuilder(
-                        future: _fetchpfId(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Center(
-                                      child: new CircularProgressIndicator()));
-                            default:
-                              if (snapshot.hasError ||
-                                  snapshot.data.length == 0)
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 30),
-                                  child: Center(
-                                      child: new Text('No faculty  found')),
-                                );
-                              else {
-                                return GridFaculty(
-                                    content: snapshot.data,
-                                    chooseFac: (int) => selectedFac(int));
-                              }
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                      bottom: 30,
+                      left: 50,
+                      child: BottomBar(),
+                    )
+                  ],
                 ),
               ),
-              Positioned(
-                bottom: 30,
-                left: 50,
-                child: BottomBar(),
-              )
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

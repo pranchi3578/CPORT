@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import '../widgets/facBar.dart';
 
 class FacApplicationView extends StatefulWidget {
-  FacApplicationView({Key key}) : super(key: key);
-
+  final dynamic contentPassed;
+  final dynamic personalInfo;
+  FacApplicationView({Key key, this.contentPassed, this.personalInfo})
+      : super(key: key);
+  static const routeName = "/viewApplication";
   _FacApplicationViewState createState() => _FacApplicationViewState();
 }
 
 class _FacApplicationViewState extends State<FacApplicationView> {
   @override
   Widget build(BuildContext context) {
+    final FacApplicationView args = ModalRoute.of(context).settings.arguments;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+        backgroundColor: Color.fromRGBO(245, 245, 245, 1),
         body: Stack(
           children: <Widget>[
             Container(
@@ -27,10 +31,11 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                       SizedBox(
                         height: 62,
                       ),
+
                       Text(
-                        "Themothy Dal ",
+                        args.personalInfo['name'].toString().toUpperCase(),
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black54,
                             fontWeight: FontWeight.bold,
                             fontSize: 26),
                       ),
@@ -38,11 +43,13 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                         height: 5,
                       ),
                       Text(
-                        "IT sem 6 ",
+                        args.personalInfo['department']
+                            .toString()
+                            .toUpperCase(),
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black45,
                             fontWeight: FontWeight.normal,
-                            fontSize: 10),
+                            fontSize: 15),
                       ),
                       SizedBox(
                         height: 33,
@@ -53,9 +60,9 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                               BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.16),
                                 blurRadius:
-                                    6.0, // has the effect of softening the shadow
+                                    2.0, // has the effect of softening the shadow
                                 spreadRadius:
-                                    5.0, // has the effect of extending the shadow
+                                    1.0, // has the effect of extending the shadow
                                 offset: Offset(
                                   0, // horizontal, move right 10
                                   8, // vertical, move down 10
@@ -70,10 +77,12 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  "Leave Application aaaaaaaaaaaaaaaa  12455383847 i want it dear ",
+                                  args.contentPassed['subject']
+                                      .toString()
+                                      .toUpperCase(),
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.redAccent,
+                                    color: Colors.black87,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -81,7 +90,7 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                                   "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _  ",
                                   style: TextStyle(
                                     fontSize: 23,
-                                    color: Colors.redAccent,
+                                    color: Colors.black38,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -89,10 +98,10 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                                   height: 24,
                                 ),
                                 Text(
-                                  "content here",
+                                  args.contentPassed['content'],
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.redAccent,
+                                    color: Colors.black54,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -115,7 +124,7 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                             "Your Comments :",
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.white,
+                                color: Colors.black26,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -126,9 +135,9 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                             BoxShadow(
                               color: Color.fromRGBO(0, 0, 0, 0.16),
                               blurRadius:
-                                  6.0, // has the effect of softening the shadow
+                                  2.0, // has the effect of softening the shadow
                               spreadRadius:
-                                  5.0, // has the effect of extending the shadow
+                                  1.0, // has the effect of extending the shadow
                               offset: Offset(
                                 0, // horizontal, move right 10
                                 8, // vertical, move down 10
