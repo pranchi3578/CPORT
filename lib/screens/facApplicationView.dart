@@ -16,8 +16,11 @@ class _FacApplicationViewState extends State<FacApplicationView> {
     final FacApplicationView args = ModalRoute.of(context).settings.arguments;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        // resizeToAvoidBottomPadding: false,
+        //resizeToAvoidBottomInset: false,
+
         backgroundColor: Color.fromRGBO(245, 245, 245, 1),
         body: Stack(
           children: <Widget>[
@@ -73,7 +76,7 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                             color: Colors.white),
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(19, 17, 13, 10),
+                            padding: const EdgeInsets.fromLTRB(19, 17, 13, 30),
                             child: Column(
                               children: <Widget>[
                                 Text(
@@ -170,8 +173,9 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                 ),
               ),
             ),
-            Positioned(
-                bottom: height * .0468, left: width * .138, child: FacBar())
+            if (MediaQuery.of(context).viewInsets.bottom == 0)
+              Positioned(
+                  bottom: height * .0468, left: width * .138, child: FacBar())
           ],
         ));
   }
