@@ -14,7 +14,7 @@ const TicketSchema = new Schema({
     {
       faculty: {
         type: Schema.Types.ObjectId,
-        ref: "faculties"
+        ref: "facultyUsers"
       },
       approved: {
         type: Number,

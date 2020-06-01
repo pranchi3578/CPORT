@@ -128,6 +128,27 @@ router.post("/login", (req, res) => {
     });
   });
 });
+router.post(
+  "/writeStatus/:id",
+  passport.authenticate("faculty", { session: false }),
+  (req, res) => {
+    Ticket.findOneAndUpdate(
+      { _id: req.params.id }, //why did we use _ here before id,is it bcz we are refering to the unique id automatically applied
+      {
+        $push: {
+          status: {
+            approved: req.body.approved,
+            faculty: req.user._id,
+            message: req.body.message
+          }
+        }
+      },
+      { new: true }
+    )
+      .then(ticket => res.json(ticket))
+      .catch(err => res.json(err));
+  }
+);
 
 router.get(
   "/getStudentInfo/:sid",
