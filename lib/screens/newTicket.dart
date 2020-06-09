@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:oneportal/widgets/upload_image.dart';
+
 import './chooseDept.dart';
 import 'package:flutter/material.dart';
 import 'package:oneportal/screens/GlobalVariables.dart';
@@ -13,20 +17,34 @@ class NewTicket extends StatefulWidget {
 class _NewTicketState extends State<NewTicket> {
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
+  File image;
+
   Map<String, dynamic> ticketData = {'subject': '', 'content': '', 'image': []};
   Map<String, dynamic> _data = Map<String, dynamic>();
 
-  Future<void> _checkForm() async {
+  Future<void> _upload() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('applications_images')
+        .child(DateTime.now().toString() + image.toString() + '.jpg');
+    await ref.putFile(image).onComplete;
+    final url = await ref.getDownloadURL();
+    ticketData['image'].add(url);
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  _next() {
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
-    setState() {
-      _isLoading = true;
-    }
-
     print(ticketData);
-
     Navigator.pushNamed(context, Department.routeName,
         arguments: Department(content: ticketData));
   }
@@ -175,7 +193,21 @@ class _NewTicketState extends State<NewTicket> {
                                           topLeft: Radius.circular(20))),
                                   child: Center(
                                     child: InkWell(
-                                      child: Text("logo"),
+                                      onTap: () => {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (_) {
+                                              return UploadImage(
+                                                setImage: (x) => {
+                                                  setState(() {
+                                                    image =
+                                                        x != null ? x : image;
+                                                  })
+                                                },
+                                              );
+                                            })
+                                      },
+                                      child: Text("Take photo"),
                                     ),
                                   ),
                                 ),
@@ -190,20 +222,41 @@ class _NewTicketState extends State<NewTicket> {
                                           bottomRight: Radius.circular(30),
                                           topRight: Radius.circular(30))),
                                   child: Center(
-                                    child: InkWell(
-                                      onTap: _checkForm,
-                                      child: Text(
-                                        "Send",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
+                                    child: _isLoading
+                                        ? CircularProgressIndicator()
+                                        : InkWell(
+                                            onTap: _upload,
+                                            child: Text(
+                                              "Upload",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
                                   ),
                                 ),
                               ),
                             ],
-                          )
+                          ),
+                          SizedBox(height: height * .018),
+                          RaisedButton(
+                            color: Color(0xff8BC34A),
+                            // onPressed: (_dob == null ||
+                            //         _gender == null ||
+                            //         _homeTown == null)
+                            //     ? null
+                            //     : () {
+                            //         onSubmitDetails(model);
+                            //       },
+                            onPressed: _next,
+                            child: Text(
+                              "Next",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                          ),
                         ],
                       )),
                     ],

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'One Portal',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Montserrat'),
-      home: FacultyLogin(),
+      home: StudentLogin(),
       routes: {
         StudentLogin.routeName: (ctx) => StudentLogin(),
         StudentSignup.routeName: (ctx) => StudentSignup(),
