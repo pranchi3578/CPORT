@@ -44,7 +44,7 @@ class _FacultyState extends State<ChooseFaculty> {
   Future _fetchpfId() async {
     final url = 'http://' +
         GloabalVariables.ip +
-        ':5000/api/students/getfId/${_department}';
+        ':5000/api/students/getfId/$_department';
     try {
       setState(() {
         _isLoading = true;
