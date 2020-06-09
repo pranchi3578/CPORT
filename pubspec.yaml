@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.5.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -49,6 +49,12 @@ flutter:
     - assets/arrow.png
     - assets/student.png
     - assets/teacher.png
+    - assets/close.png
+    - assets/tick.png
+    - assets/send.png
+    - assets/approved.png
+    - assets/cancel.png
+    - assets/StatusBackground.png
 
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

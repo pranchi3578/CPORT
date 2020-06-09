@@ -61,7 +61,7 @@ class _FacStatusState extends State<FacStatus> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
       body: Padding(
         padding: EdgeInsets.fromLTRB(
             0, MediaQuery.of(context).copyWith().size.width / 5.8065, 0, 0),
@@ -69,6 +69,10 @@ class _FacStatusState extends State<FacStatus> {
           child: Stack(
             children: <Widget>[
               Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/StatusBackground.png"),
+                        fit: BoxFit.contain)),
                 height: MediaQuery.of(context).copyWith().size.height,
                 child: SingleChildScrollView(
                   child: Column(
@@ -76,9 +80,9 @@ class _FacStatusState extends State<FacStatus> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 54),
                         child: Text(
-                          "New Requests",
+                          "Applications",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.teal[200],
                               fontWeight: FontWeight.bold,
                               fontSize: 26),
                         ),

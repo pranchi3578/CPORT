@@ -25,32 +25,32 @@ router.post("/", (req, res) => {
     department: req.body.department,
     phone: req.body.phone,
     photo: req.body.photo,
-    email: req.body.email
+    email: req.body.email,
   });
   newFaculty
     .save()
-    .then(fclty => res.json(fclty))
-    .catch(err => res.json(err));
+    .then((fclty) => res.json(fclty))
+    .catch((err) => res.json(err));
 });
 
 // Get all facultydents
 router.get("/", (req, res) => {
   Faculty.findOne({ pfId: req.body.pfId })
-    .then(fclty => res.json(fclty))
-    .catch(err => res.json(err));
+    .then((fclty) => res.json(fclty))
+    .catch((err) => res.json(err));
 });
 
 // Signup
 router.post("/signup", (req, res) => {
   const pfId = req.body.pfId;
   const password = req.body.password;
-  Faculty.findOne({ pfId: pfId }).then(faculty => {
+  Faculty.findOne({ pfId: pfId }).then((faculty) => {
     console.log(faculty);
     if (faculty === null) {
       res.status(404).json({ msg: "Faculty not found" });
       return;
     } else {
-      FacultyUser.findOne({ faculty: faculty._id }).then(user => {
+      FacultyUser.findOne({ faculty: faculty._id }).then((user) => {
         console.log(user);
         if (user) {
           return res.status(400).json("You already registered");
@@ -58,7 +58,7 @@ router.post("/signup", (req, res) => {
           const newUser = new FacultyUser({
             faculty: faculty.id,
             pfId: pfId,
-            password: password
+            password: password,
           });
 
           bcrypt.genSalt(10, (err, salt) => {
@@ -68,10 +68,10 @@ router.post("/signup", (req, res) => {
 
               newUser
                 .save()
-                .then(user => {
+                .then((user) => {
                   const payload = {
                     id: user.id,
-                    pfId: pfId
+                    pfId: pfId,
                   };
                   jwt.sign(
                     payload,
@@ -80,12 +80,12 @@ router.post("/signup", (req, res) => {
                     (err, token) => {
                       res.json({
                         success: true,
-                        token: "Bearer " + token
+                        token: "Bearer " + token,
                       });
                     }
                   );
                 })
-                .catch(err => res.json(err));
+                .catch((err) => res.json(err));
             });
           });
         }
@@ -99,17 +99,17 @@ router.post("/login", (req, res) => {
   pfId = req.body.pfId;
   password = req.body.password;
 
-  FacultyUser.findOne({ pfId: pfId }).then(user => {
+  FacultyUser.findOne({ pfId: pfId }).then((user) => {
     if (!user) {
       // errors.email = "User not found";
       res.status(404).json({ msg: "You are not registered" });
     }
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
         console.log("userid:" + user.id);
         const payload = {
           id: user.id,
-          pfId: pfId
+          pfId: pfId,
         };
         jwt.sign(
           payload,
@@ -118,7 +118,7 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer " + token
+              token: "Bearer " + token,
             });
           }
         );
@@ -135,18 +135,19 @@ router.post(
     Ticket.findOneAndUpdate(
       { _id: req.params.id }, //why did we use _ here before id,is it bcz we are refering to the unique id automatically applied
       {
+        approved: req.body.approved,
         $push: {
           status: {
             approved: req.body.approved,
             faculty: req.user._id,
-            message: req.body.message
-          }
-        }
+            message: req.body.message,
+          },
+        },
       },
       { new: true }
     )
-      .then(ticket => res.json(ticket))
-      .catch(err => res.json(err));
+      .then((ticket) => res.json(ticket))
+      .catch((err) => res.json(err));
   }
 );
 
@@ -155,14 +156,14 @@ router.get(
   passport.authenticate("faculty", { session: false }),
   (req, res) => {
     StudentUser.findById(req.params.sid)
-      .then(user =>
+      .then((user) =>
         Student.findOne({ admissionNumber: user.admissionNumber })
-          .then(studentInfo => {
+          .then((studentInfo) => {
             res.json(studentInfo);
           })
-          .catch(err => console.log(err))
+          .catch((err) => console.log(err))
       )
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }
 );
 
@@ -174,24 +175,24 @@ router.get(
     console.log(req.user.id);
 
     FacultyUser.findOne({ _id: req.user._id })
-      .then(item => {
+      .then((item) => {
         fid = item.pfId;
         console.log(fid);
 
         Ticket.find({ fid: fid })
-          .then(tickets => {
+          .then((tickets) => {
             console.log(tickets);
             res.status(200).json(tickets);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err),
               res.status(500).json({
                 note: "error report:no tickets found",
-                error: err
+                error: err,
               });
           });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 );
 
@@ -200,13 +201,13 @@ router.get(
   passport.authenticate("faculty", { session: false }),
   (req, res) => {
     Ticket.findById(req.params.id) // idu egane nammal front endil ninnu pass cheyum?ticket id
-      .then(ticket => {
+      .then((ticket) => {
         res.status(200).json(ticket);
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).json({
           note: "error report:no tickets found",
-          error: err
+          error: err,
         });
       });
   }
@@ -219,19 +220,19 @@ router.patch(
     const status = {
       approved: req.body.approved,
       faculty: req.user.id,
-      message: req.body.message
+      message: req.body.message,
     };
     Ticket.findOneAndUpdate(
       { _id: req.params.id }, //why did we use _ here before id,is it bcz we are refering to the unique id automatically applied
       {
         $push: {
-          status: status
-        }
+          status: status,
+        },
       },
       { new: true }
     )
-      .then(ticket => res.json(ticket))
-      .catch(err => res.json(err));
+      .then((ticket) => res.json(ticket))
+      .catch((err) => res.json(err));
   }
 );
 
@@ -244,13 +245,13 @@ router.patch(
       { _id: req.params.id },
       {
         $set: {
-          fid: req.body.fid
-        }
+          fid: req.body.fid,
+        },
       },
       { new: true }
     )
-      .then(ticket => res.json(ticket))
-      .catch(err => res.json(err));
+      .then((ticket) => res.json(ticket))
+      .catch((err) => res.json(err));
   }
 );
 
