@@ -6,12 +6,12 @@ const Ticket = require("../../models/Ticket");
 const Faculty = require("../../models/Faculty");
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "uploads/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
-  }
+  },
 });
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "image/jpg" || file.mimetype === "image/png") {
@@ -24,9 +24,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 5,
   },
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
 });
 
 router.get(
@@ -34,11 +34,11 @@ router.get(
   passport.authenticate("student", { session: false }),
   (req, res) => {
     Ticket.find({ student: req.user.id })
-      .then(tickets => {
+      .then((tickets) => {
         res.json(tickets);
         console.log(tickets + "are the tickets");
       })
-      .catch(err => res.status(500).json(err));
+      .catch((err) => res.status(500).json(err));
   }
 );
 
@@ -52,17 +52,18 @@ router.post(
       student: req.user.id,
       content: req.body.content,
       subject: req.body.subject,
-      fid: req.params.fid
+      fid: req.params.fid,
+      approved: 3,
     });
     Ticket.findOne({ student: req.user.id })
-      .then(request => {
+      .then((request) => {
         newTicket
           .save()
-          .then(ticket => res.json(ticket))
-          .catch(errr => console.log(errr));
+          .then((ticket) => res.json(ticket))
+          .catch((errr) => console.log(errr));
       })
 
-      .catch(erre => res.json(erre));
+      .catch((erre) => res.json(erre));
 
     // res.status(200).json(res);
   }
@@ -70,13 +71,13 @@ router.post(
 
 router.get("/:id", (req, res) => {
   Ticket.findById(req.params.id)
-    .then(ticket => {
+    .then((ticket) => {
       res.status(200).json(ticket);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
         note: "error report:no tickets found",
-        error: err
+        error: err,
       });
     });
 });
