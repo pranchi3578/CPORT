@@ -2,38 +2,40 @@ import 'package:flutter/material.dart';
 
 class FacBar extends StatelessWidget {
   @override
+  final Function(int) response;
+  const FacBar({Key key, this.response}) : super(key: key);
   Widget build(BuildContext context) {
     return Container(
       height: 39,
       width: 261,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.black87,
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           GestureDetector(
-            onTap: null,
+            onTap: () => response(2),
             child: Image.asset(
-              "assets/comment.png",
-              height: 23,
-              width: 23,
+              "assets/close.png",
+              height: 25,
+              width: 25,
             ),
           ),
           GestureDetector(
-            onTap: null,
+            onTap: () => response(3),
             child: Image.asset(
-              "assets/comment.png",
-              height: 23,
-              width: 23,
+              "assets/send.png",
+              height: 25,
+              width: 25,
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed("/chat"),
+            onTap: () => response(1),
             child: Image.asset(
-              "assets/comment.png",
-              height: 23,
-              width: 23,
+              "assets/tick.png",
+              height: 25,
+              width: 25,
             ),
           )
         ],

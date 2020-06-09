@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/facBar.dart';
+import '../screens/GlobalVariables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:convert';
 
 class FacApplicationView extends StatefulWidget {
   final dynamic contentPassed;
@@ -11,12 +16,104 @@ class FacApplicationView extends StatefulWidget {
 }
 
 class _FacApplicationViewState extends State<FacApplicationView> {
+  final _formKey = GlobalKey<FormState>();
+  SharedPreferences sp;
+  var _content;
+  var _studentInfo;
+  var _message = "";
+  var _approved;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final FacApplicationView args = ModalRoute.of(context).settings.arguments;
+    _content = args.contentPassed;
+    _studentInfo = args.personalInfo;
+    print(_content);
+  }
+
+  navigationResponse(value, BuildContext context) {
+    _formKey.currentState.save();
+    if (value == 1 || value == 2) writeResponseToDb(value);
+    print(value);
+    setState(() {
+      _approved = value;
+    });
+    showCustomDialogWithImage(context, value);
+  }
+
+  Future writeResponseToDb(int approved) async {
+    print(approved.runtimeType);
+    final url = 'http://' +
+        GloabalVariables.ip +
+        ':5000/api/faculties/writeStatus/${_content['_id']}';
+    final Map a = {'approved': approved.toString(), 'message': _message};
+    try {
+      sp = await SharedPreferences.getInstance();
+      final headers = {HttpHeaders.authorizationHeader: sp.getString('jwt')};
+      final response = await http.post(url, headers: headers, body: a);
+    } catch (err) {
+      print(err);
+
+      throw (err);
+    }
+  }
+
+  void showCustomDialogWithImage(BuildContext context, approved) async {
+    Dialog dialogWithImage = Dialog(
+      child: Container(
+        height: 300.0,
+        width: 300.0,
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(12),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(color: Colors.grey[300]),
+              child: approved == 1
+                  ? Text(
+                      "Approved",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                    )
+                  : Text(
+                      "Canceled",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                    ),
+            ),
+            Container(
+              height: 200,
+              width: 300,
+              child: approved == 1
+                  ? Image.asset(
+                      'assets/approved.png',
+                      fit: BoxFit.scaleDown,
+                    )
+                  : Image.asset(
+                      'assets/cancel.png',
+                      fit: BoxFit.scaleDown,
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    showDialog(
+        context: context, builder: (BuildContext context) => dialogWithImage);
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.of(context).pushReplacementNamed('/facStatus');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final FacApplicationView args = ModalRoute.of(context).settings.arguments;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
+    final FacApplicationView args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         // resizeToAvoidBottomPadding: false,
         //resizeToAvoidBottomInset: false,
@@ -80,9 +177,7 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  args.contentPassed['subject']
-                                      .toString()
-                                      .toUpperCase(),
+                                  _content['subject'].toString().toUpperCase(),
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.black87,
@@ -101,7 +196,7 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                                   height: 24,
                                 ),
                                 Text(
-                                  args.contentPassed['content'],
+                                  _content['content'],
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.black54,
@@ -132,36 +227,44 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.16),
-                              blurRadius:
-                                  2.0, // has the effect of softening the shadow
-                              spreadRadius:
-                                  1.0, // has the effect of extending the shadow
-                              offset: Offset(
-                                0, // horizontal, move right 10
-                                8, // vertical, move down 10
-                              ),
-                            )
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Center(
-                          child: TextFormField(
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            minLines: 10,
-                            decoration: InputDecoration(
-                                hintText: "eg.Meet me",
-                                fillColor: Colors.white,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)))),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 90),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.16),
+                                blurRadius:
+                                    2.0, // has the effect of softening the shadow
+                                spreadRadius:
+                                    1.0, // has the effect of extending the shadow
+                                offset: Offset(
+                                  0, // horizontal, move right 10
+                                  8, // vertical, move down 10
+                                ),
+                              )
+                            ],
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
+                          child: Center(
+                              child: Form(
+                            key: _formKey,
+                            child: TextFormField(
+                              onSaved: (value) {
+                                _message = value;
+                              },
+                              maxLines: null,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 10,
+                              decoration: InputDecoration(
+                                  hintText: "eg.Meet me",
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)))),
+                            ),
+                          )),
                         ),
                       ),
                       // Positioned(
@@ -175,7 +278,10 @@ class _FacApplicationViewState extends State<FacApplicationView> {
             ),
             if (MediaQuery.of(context).viewInsets.bottom == 0)
               Positioned(
-                  bottom: height * .0468, left: width * .138, child: FacBar())
+                  bottom: height * .0468,
+                  left: width * .138,
+                  child: FacBar(
+                      response: (int) => navigationResponse(int, context)))
           ],
         ));
   }
