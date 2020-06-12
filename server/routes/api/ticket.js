@@ -53,6 +53,7 @@ router.post(
       content: req.body.content,
       subject: req.body.subject,
       fid: req.params.fid,
+      image: req.body.image,
       approved: 3,
     });
     Ticket.findOne({ student: req.user.id })

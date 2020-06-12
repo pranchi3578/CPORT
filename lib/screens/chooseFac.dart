@@ -91,6 +91,7 @@ class _FacultyState extends State<ChooseFaculty> {
       final response = await http.post(url, headers: headers, body: {
         'content': _contentFetched['content'],
         'subject': _contentFetched['subject'],
+        'image': _contentFetched['image'].toString()
       });
       return json.decode(response.body);
     } catch (err) {

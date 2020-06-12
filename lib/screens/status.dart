@@ -7,6 +7,7 @@ import '../widgets/cardStatus.dart';
 import 'package:oneportal/screens/GlobalVariables.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './studentApplicationView.dart';
 
 class Status extends StatefulWidget {
   static const routeName = "/status";
@@ -18,7 +19,7 @@ class Status extends StatefulWidget {
 class _StatusState extends State<Status> {
   var _isLoading = false;
   List<dynamic> _status = List<dynamic>();
-
+  dynamic _facInfo;
   SharedPreferences sp;
   Future _fetchTickets() async {
     const url = 'http://' + GloabalVariables.ip + ':5000/api/tickets';
@@ -30,6 +31,27 @@ class _StatusState extends State<Status> {
     } catch (err) {
       throw (err);
     }
+  }
+
+  _selectedTicket(dynamic ticket) async {
+    print(ticket['fid']);
+    final url = 'http://' +
+        GloabalVariables.ip +
+        ':5000/api/students/getFacInfo/${ticket['fid']}';
+    try {
+      sp = await SharedPreferences.getInstance();
+      final response = await http.get(url,
+          headers: {HttpHeaders.authorizationHeader: sp.getString('jwt')});
+
+      _facInfo = json.decode(response.body);
+      print("printing personal info");
+      print(_facInfo);
+    } catch (err) {
+      throw (err);
+    }
+    Navigator.pushNamed(context, StudentApplicationView.routeName,
+        arguments:
+            StudentApplicationView(contentPassed: ticket, facInfo: _facInfo));
   }
 
   Widget build(BuildContext context) {
@@ -75,7 +97,10 @@ class _StatusState extends State<Status> {
                                       child: new Text('No Tickets found')),
                                 );
                               else {
-                                return CardStatus(tickets: snapshot.data);
+                                return CardStatus(
+                                    tickets: snapshot.data,
+                                    chooseTicket: (dynamic) =>
+                                        _selectedTicket(dynamic));
                               }
                           }
                         },

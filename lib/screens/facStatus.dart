@@ -21,7 +21,7 @@ class FacStatus extends StatefulWidget {
 
 class _FacStatusState extends State<FacStatus> {
   var _isLoading = false;
-  dynamic _personalInfo;
+  dynamic _personalInfo; //info of the ticket
 
   SharedPreferences sp;
   Future _fetchTickets() async {

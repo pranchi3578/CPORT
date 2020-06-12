@@ -17,6 +17,7 @@ import './screens/chooseFac.dart';
 import './screens/messages.dart';
 import './screens/facStatus.dart';
 import './screens/facApplicationView.dart';
+import './screens/studentApplicationView.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
         FacStatus.routeName: (ctx) => FacStatus(),
         FacultyLogin.routeName: (ctx) => FacultyLogin(),
         FacultySignup.routeName: (ctx) => FacultySignup(),
-        FacApplicationView.routeName: (ctx) => FacApplicationView()
+        FacApplicationView.routeName: (ctx) => FacApplicationView(),
+        StudentApplicationView.routeName: (ctx) => StudentApplicationView()
       },
     );
   }
