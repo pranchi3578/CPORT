@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:oneportal/widgets/upload_image.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import './chooseDept.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _NewTicketState extends State<NewTicket> {
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
   File image;
+  String imageName = 'Take Photo';
 
   Map<String, dynamic> ticketData = {'subject': '', 'content': '', 'image': []};
   Map<String, dynamic> _data = Map<String, dynamic>();
@@ -33,9 +35,29 @@ class _NewTicketState extends State<NewTicket> {
     await ref.putFile(image).onComplete;
     final url = await ref.getDownloadURL();
     ticketData['image'].add(url);
-
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text('Uploaded..!'),
+          content: new Text(
+              "If you want more photos to upload click on 'Take Next Photo' "),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text('close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
     setState(() {
       _isLoading = false;
+      imageName = 'Take Next Photo';
     });
   }
 
@@ -195,22 +217,35 @@ class _NewTicketState extends State<NewTicket> {
                                           bottomLeft: Radius.circular(20),
                                           topLeft: Radius.circular(20))),
                                   child: Center(
-                                    child: InkWell(
-                                      onTap: () => {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (_) {
-                                              return UploadImage(
-                                                setImage: (x) => {
-                                                  setState(() {
-                                                    image =
-                                                        x != null ? x : image;
-                                                  })
-                                                },
-                                              );
-                                            })
-                                      },
-                                      child: Text("Take photo"),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(height * 0.004),
+                                      child: InkWell(
+                                        onTap: () => {
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (_) {
+                                                return UploadImage(
+                                                  setImage: (x, y) => {
+                                                    setState(() {
+                                                      image =
+                                                          x != null ? x : image;
+                                                      imageName =
+                                                          y != null ? y : image;
+                                                    })
+                                                  },
+                                                );
+                                              })
+                                        },
+                                        child: AutoSizeText(
+                                          imageName,
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          maxFontSize: 16,
+                                          minFontSize: 12,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

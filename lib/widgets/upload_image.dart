@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 // import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,12 +12,14 @@ class UploadImage extends StatelessWidget {
     @required this.setImage,
   }) : super(key: key);
 
-  void getImageFile(ImageSource source) async {
+  void getImageFile(ImageSource source, context) async {
     print(source);
 
     var image = await ImagePicker.pickImage(source: source);
 
-    setImage(image);
+    setImage(image, basename(image.path));
+    Navigator.pop(context);
+    print(image.uri);
   }
 
   @override
@@ -31,7 +33,7 @@ class UploadImage extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: FlatButton(
-                onPressed: () => getImageFile(ImageSource.camera),
+                onPressed: () => getImageFile(ImageSource.camera, context),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -45,7 +47,7 @@ class UploadImage extends StatelessWidget {
             ),
             Expanded(
               child: FlatButton(
-                onPressed: () => getImageFile(ImageSource.gallery),
+                onPressed: () => getImageFile(ImageSource.gallery, context),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
