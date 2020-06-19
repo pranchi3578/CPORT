@@ -46,7 +46,10 @@ class _NewTicketState extends State<NewTicket> {
     _formKey.currentState.save();
     print(ticketData);
     Navigator.pushNamed(context, Department.routeName,
-        arguments: Department(content: ticketData));
+        arguments: Department(
+          content: ticketData,
+          student: true,
+        ));
   }
 
   @override

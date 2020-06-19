@@ -166,6 +166,22 @@ router.get(
       .catch((error) => console.log(error));
   }
 );
+router.get(
+  "/getfId/:department",
+  passport.authenticate("faculty", { session: false }),
+  (req, res) => {
+    department = req.params.department;
+    Faculty.find({ department: department })
+      .select("pfId name")
+      .then((faculty) => {
+        if (faculty.length === 0) {
+          return res.status(404).json([]);
+        }
+        res.status(200).json(faculty);
+      })
+      .catch((err) => res.status(500).json(err));
+  }
+);
 
 router.get(
   "/ticketsReceived",

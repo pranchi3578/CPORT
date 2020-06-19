@@ -5,7 +5,7 @@ import '../widgets/clipperLogo2.dart';
 
 class Logo extends StatelessWidget {
   const Logo({Key key}) : super(key: key);
-
+  static const routeName = "/flashscreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
