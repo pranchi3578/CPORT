@@ -7,7 +7,7 @@ class BottomBar extends StatelessWidget {
       height: 39,
       width: 261,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.black87,
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -15,7 +15,7 @@ class BottomBar extends StatelessWidget {
           GestureDetector(
             onTap: null,
             child: Image.asset(
-              "assets/comment.png",
+              "assets/chat.png",
               height: 23,
               width: 23,
             ),
@@ -23,7 +23,7 @@ class BottomBar extends StatelessWidget {
           GestureDetector(
             onTap: null,
             child: Image.asset(
-              "assets/comment.png",
+              "assets/add.png",
               height: 23,
               width: 23,
             ),
@@ -31,7 +31,7 @@ class BottomBar extends StatelessWidget {
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed("/chat"),
             child: Image.asset(
-              "assets/comment.png",
+              "assets/bell.png",
               height: 23,
               width: 23,
             ),

@@ -77,9 +77,9 @@ class _NewTicketState extends State<NewTicket> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+      backgroundColor: Color.fromRGBO(32, 33, 36, 1),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Stack(
           children: <Widget>[
             Form(
@@ -92,7 +92,7 @@ class _NewTicketState extends State<NewTicket> {
                         "New Ticket",
                         style: TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             fontSize: 26),
                       ),
                       SizedBox(
@@ -111,7 +111,7 @@ class _NewTicketState extends State<NewTicket> {
                                 "Subject",
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.white,
+                                    color: Color.fromRGBO(190, 190, 190, 1),
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -146,7 +146,7 @@ class _NewTicketState extends State<NewTicket> {
                                 "Content :",
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.white,
+                                    color: Color.fromRGBO(190, 190, 190, 1),
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -195,7 +195,7 @@ class _NewTicketState extends State<NewTicket> {
                                 "Attachments :",
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.white,
+                                    color: Color.fromRGBO(190, 190, 190, 1),
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -300,10 +300,12 @@ class _NewTicketState extends State<NewTicket> {
               ),
             ),
             Positioned(
-              bottom: height * .0468,
-              left: width * .138,
+                // bottom: height * .0468,
+                // left: height * .018,
+                child: Align(
+              alignment: FractionalOffset.bottomCenter,
               child: BottomBar(),
-            )
+            ))
           ],
         ),
       ),
