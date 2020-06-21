@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
+import '../widgets/viewAttachments.dart';
 
 class FacApplicationView extends StatefulWidget {
   final dynamic contentPassed;
@@ -184,6 +185,7 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                ViewAttachments(_content['image']),
                                 Text(
                                   "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _  ",
                                   style: TextStyle(

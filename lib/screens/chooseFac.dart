@@ -4,6 +4,7 @@ import '../widgets/bottomBar.dart';
 import '../widgets/grid.dart';
 import '../screens/GlobalVariables.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,7 @@ class ChooseFaculty extends StatefulWidget {
 class _FacultyState extends State<ChooseFaculty> {
   @override
   var _department;
-  var _contentFetched;
+  Map<String, dynamic> _contentFetched = Map<String, dynamic>();
   var _isLoading = false;
   var _pfId;
   dynamic _dataFetched;
@@ -35,10 +36,10 @@ class _FacultyState extends State<ChooseFaculty> {
     final ChooseFaculty args = ModalRoute.of(context).settings.arguments;
     _department = args.departmentSelected;
     _contentFetched = args.contentPassed;
-    print("_argument value");
-    print(args.contentPassed);
-    print(_department);
-    print(_contentFetched);
+    // print("_argument value");
+    // print(args.contentPassed);
+    // print(_department);
+    // print(_contentFetched);
   }
 
   Future _fetchpfId() async {
@@ -73,7 +74,7 @@ class _FacultyState extends State<ChooseFaculty> {
       _isLoading = true;
     });
     if (_pfId != null) {
-      print(_pfId);
+      // print(_pfId);
       await writeToDb();
     }
     setState(() {
@@ -85,15 +86,20 @@ class _FacultyState extends State<ChooseFaculty> {
   @override
   Future writeToDb() async {
     final url = "http://" + GloabalVariables.ip + ':5000/api/tickets/$_pfId';
+    // print('mmmfffc');
+    print(json.encode(_contentFetched));
+    // List<String> i = [];
+    // _contentFetched['image'].forEach((item) => i.add(item.toString()));
+    // print(i);
     try {
+      Dio dio = Dio();
+
       sp = await SharedPreferences.getInstance();
       final headers = {HttpHeaders.authorizationHeader: sp.getString('jwt')};
-      final response = await http.post(url, headers: headers, body: {
-        'content': _contentFetched['content'],
-        'subject': _contentFetched['subject'],
-        'image': _contentFetched['image'].toString()
-      });
-      return json.decode(response.body);
+      dio.options.headers = headers;
+      final response = await dio.post(url, data: _contentFetched);
+      // print(response);
+      // return json.decode(response.data);
     } catch (err) {
       throw (err);
     }

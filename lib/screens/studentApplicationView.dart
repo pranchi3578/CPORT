@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 import '../widgets/bottomBar.dart';
+import '../widgets/viewAttachments.dart';
 
 class StudentApplicationView extends StatefulWidget {
   final dynamic contentPassed;
@@ -30,11 +31,13 @@ class _StudentApplicationViewState extends State<StudentApplicationView> {
         ModalRoute.of(context).settings.arguments;
     _content = args.contentPassed;
     _studentInfo = args.facInfo;
-    print(_content);
+    // print('ullil');
+    // print(_content);
+    print(_content['image']);
   }
 
   Future writeResponseToDb(int approved) async {
-    print(approved.runtimeType);
+    // print(approved.runtimeType);
     final url = 'http://' +
         GloabalVariables.ip +
         ':5000/api/faculties/writeStatus/${_content['_id']}';
@@ -145,6 +148,7 @@ class _StudentApplicationViewState extends State<StudentApplicationView> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                ViewAttachments(_content['image']),
                                 Text(
                                   "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _  ",
                                   style: TextStyle(

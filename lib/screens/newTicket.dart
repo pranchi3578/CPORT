@@ -34,7 +34,7 @@ class _NewTicketState extends State<NewTicket> {
         .child(DateTime.now().toString() + image.toString() + '.jpg');
     await ref.putFile(image).onComplete;
     final url = await ref.getDownloadURL();
-    ticketData['image'].add(url);
+    ticketData['image'].add(url.toString());
     showDialog(
       context: context,
       builder: (BuildContext context) {

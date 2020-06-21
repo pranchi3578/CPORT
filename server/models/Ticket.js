@@ -40,7 +40,7 @@ const TicketSchema = new Schema({
     required: true,
   },
 
-  image: [String],
+  image: [],
   doc: [String],
 });
 
