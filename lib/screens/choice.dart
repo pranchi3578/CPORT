@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import './stuSignup.dart';
+import 'facSignup.dart';
 
 class Choice extends StatefulWidget {
-  Choice({Key key}) : super(key: key);
+  // Choice({Key key}) : super(key: key);
   static const routeName = "/choice";
 
   _ChoiceState createState() => _ChoiceState();
@@ -23,6 +25,18 @@ class _ChoiceState extends State<Choice> {
       _onclick2 = !(_onclick2);
       _onclick1 = true;
     });
+  }
+
+  _next() {
+    if (_onclick1 != _onclick2) {
+      if (_onclick2) {
+        print('1');
+        Navigator.of(context).pushNamed(StudentSignup.routeName);
+      } else {
+        print('2');
+        Navigator.of(context).pushNamed(FacultySignup.routeName);
+      }
+    }
   }
 
   @override
@@ -177,7 +191,9 @@ class _ChoiceState extends State<Choice> {
               ],
             ),
           ),
-          Container(
+          InkWell(
+            onTap: _next,
+            child: Container(
               height: MediaQuery.of(context).copyWith().size.width / (360 / 39),
               width: MediaQuery.of(context).copyWith().size.width / (360 / 312),
               decoration: BoxDecoration(
@@ -199,7 +215,9 @@ class _ChoiceState extends State<Choice> {
                               fontSize: 12,
                               color: Color.fromRGBO(241, 24, 52, 1),
                               fontWeight: FontWeight.bold)),
-                    )),
+                    ),
+            ),
+          ),
         ],
       ),
     ));

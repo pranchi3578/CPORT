@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../screens/chat.dart';
+import '../screens/newTicket.dart';
+import '../screens/status.dart';
 
 class BottomBar extends StatelessWidget {
   @override
@@ -13,7 +16,8 @@ class BottomBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           GestureDetector(
-            onTap: null,
+            onTap: () =>
+                Navigator.of(context).pushNamed(MyChatScreen.routeName),
             child: Image.asset(
               "assets/chat.png",
               height: 23,
@@ -21,7 +25,7 @@ class BottomBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: null,
+            onTap: () => Navigator.of(context).pushNamed(NewTicket.routeName),
             child: Image.asset(
               "assets/add.png",
               height: 23,
@@ -29,7 +33,7 @@ class BottomBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed("/chat"),
+            onTap: () => Navigator.of(context).pushNamed(Status.routeName),
             child: Image.asset(
               "assets/bell.png",
               height: 23,

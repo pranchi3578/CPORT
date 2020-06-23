@@ -4,13 +4,14 @@ import '../widgets/clipperLogo1.dart';
 import '../widgets/clipperLogo2.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({Key key}) : super(key: key);
+  // const Logo({Key key}) : super(key: key);
 
+  static const routeName = '/logo';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color.fromRGBO(241, 24, 52, 1),
+        color: Color(0xfff11834),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

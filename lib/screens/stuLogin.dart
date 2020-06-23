@@ -126,7 +126,7 @@ class _StudentLoginState extends State<StudentLogin> {
                               //   Icons.person,
                               //   color: Colors.white,
                               // ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),
@@ -157,7 +157,7 @@ class _StudentLoginState extends State<StudentLogin> {
                                   borderSide: BorderSide(color: Colors.black38),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),

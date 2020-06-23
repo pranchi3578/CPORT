@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:oneportal/widgets/bottomBar.dart';
 
 class MyChatScreen extends StatefulWidget {
+  static const routeName = '/chat-screen';
   const MyChatScreen({Key key, this.title}) : super(key: key);
   final String title;
 

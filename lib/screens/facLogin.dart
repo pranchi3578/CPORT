@@ -7,7 +7,7 @@ import './facStatus.dart';
 //import './stuSignup.dart';
 
 class FacultyLogin extends StatefulWidget {
-  static const routeName = "/studentLogin";
+  static const routeName = "/facultyLogin";
   @override
   _FacultyLoginState createState() => _FacultyLoginState();
 }
@@ -125,7 +125,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
                               //   Icons.person,
                               //   color: Colors.white,
                               // ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),
@@ -154,7 +154,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black38),
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),
