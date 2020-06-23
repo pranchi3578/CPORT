@@ -161,12 +161,12 @@ class _FacApplicationViewState extends State<FacApplicationView> {
                               BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.16),
                                 blurRadius:
-                                    2.0, // has the effect of softening the shadow
+                                    1.0, // has the effect of softening the shadow
                                 spreadRadius:
                                     1.0, // has the effect of extending the shadow
                                 offset: Offset(
                                   0, // horizontal, move right 10
-                                  8, // vertical, move down 10
+                                  2, // vertical, move down 10
                                 ),
                               )
                             ],

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 
 class Choice extends StatefulWidget {
   Choice({Key key}) : super(key: key);
+  static const routeName = "/choice";
 
   _ChoiceState createState() => _ChoiceState();
 }

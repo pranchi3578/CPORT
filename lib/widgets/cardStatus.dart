@@ -34,7 +34,7 @@ class _CardStatusState extends State<CardStatus> {
                             ),
                           ),
                           decoration: new BoxDecoration(
-                            color: Colors.white54,
+                            color: Colors.grey[700],
                             borderRadius: new BorderRadius.only(
                                 topLeft: Radius.circular(7),
                                 topRight: Radius.circular(7)),
@@ -73,13 +73,13 @@ class _CardStatusState extends State<CardStatus> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: Color.fromRGBO(241, 24, 52, 1),
+                                      color: Colors.white70,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
                               decoration: new BoxDecoration(
-                                color: Colors
-                                    .white, //new Color.fromRGBO(255, 0, 0, 0.0),
+                                color: Colors.grey[
+                                    850], //new Color.fromRGBO(255, 0, 0, 0.0),
                                 borderRadius: new BorderRadius.only(
                                     bottomLeft: Radius.circular(7),
                                     bottomRight: Radius.circular(7)),
@@ -164,13 +164,13 @@ class _CardStatusState extends State<CardStatus> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 12,
-                                          color: Color.fromRGBO(241, 24, 52, 1),
+                                          color: Colors.white70,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   decoration: new BoxDecoration(
-                                    color: Colors
-                                        .white, //new Color.fromRGBO(255, 0, 0, 0.0),
+                                    color: Colors.grey[
+                                        850], //new Color.fromRGBO(255, 0, 0, 0.0),
                                     borderRadius: new BorderRadius.only(
                                         bottomLeft: Radius.circular(7),
                                         bottomRight: Radius.circular(7)),
@@ -254,13 +254,13 @@ class _CardStatusState extends State<CardStatus> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 12,
-                                          color: Color.fromRGBO(241, 24, 52, 1),
+                                          color: Colors.white70,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   decoration: new BoxDecoration(
-                                    color: Colors
-                                        .white, //new Color.fromRGBO(255, 0, 0, 0.0),
+                                    color: Colors.grey[
+                                        850], //new Color.fromRGBO(255, 0, 0, 0.0),
                                     borderRadius: new BorderRadius.only(
                                         bottomLeft: Radius.circular(7),
                                         bottomRight: Radius.circular(7)),

@@ -25,21 +25,21 @@ class Grid extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 12,
-                    color: Color.fromRGBO(241, 24, 52, 1),
+                    color: Colors.white60,
                     fontWeight: FontWeight.bold),
               ),
             ),
             decoration: new BoxDecoration(
-              color: Colors.white, //new Color.fromRGBO(255, 0, 0, 0.0),
+              color: Colors.grey[850], //new Color.fromRGBO(255, 0, 0, 0.0),
               borderRadius: new BorderRadius.all(Radius.circular(7)),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.16),
-                  blurRadius: 6.0, // has the effect of softening the shadow
-                  spreadRadius: 5.0, // has the effect of extending the shadow
+                  blurRadius: 1.0, // has the effect of softening the shadow
+                  spreadRadius: 1, // has the effect of extending the shadow
                   offset: Offset(
                     0, // horizontal, move right 10
-                    8, // vertical, move down 10
+                    2, // vertical, move down 10
                   ),
                 )
               ],

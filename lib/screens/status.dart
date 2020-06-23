@@ -56,7 +56,7 @@ class _StatusState extends State<Status> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+      backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.fromLTRB(
             0, MediaQuery.of(context).copyWith().size.width / 5.8065, 0, 0),
@@ -73,8 +73,8 @@ class _StatusState extends State<Status> {
                         child: Text(
                           "Status",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w200,
                               fontSize: 26),
                         ),
                       ),

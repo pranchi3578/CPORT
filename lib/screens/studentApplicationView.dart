@@ -124,12 +124,12 @@ class _StudentApplicationViewState extends State<StudentApplicationView> {
                               BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.16),
                                 blurRadius:
-                                    2.0, // has the effect of softening the shadow
+                                    1.0, // has the effect of softening the shadow
                                 spreadRadius:
                                     1.0, // has the effect of extending the shadow
                                 offset: Offset(
                                   0, // horizontal, move right 10
-                                  8, // vertical, move down 10
+                                  2, // vertical, move down 10
                                 ),
                               )
                             ],
@@ -148,7 +148,6 @@ class _StudentApplicationViewState extends State<StudentApplicationView> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                ViewAttachments(_content['image']),
                                 Text(
                                   "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _  ",
                                   style: TextStyle(
@@ -174,6 +173,26 @@ class _StudentApplicationViewState extends State<StudentApplicationView> {
                               ],
                             ),
                           ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Attachments :",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black26,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 33),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ViewAttachments(_content['image']),
                         ),
                       ),
                       SizedBox(

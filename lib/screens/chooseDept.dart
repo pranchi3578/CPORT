@@ -58,7 +58,7 @@ class _DepartmentState extends State<Department> {
     final Department args = ModalRoute.of(context).settings.arguments;
     argument = args.content;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+      backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.fromLTRB(
             0, MediaQuery.of(context).copyWith().size.width / 5.8065, 0, 0),
@@ -71,10 +71,10 @@ class _DepartmentState extends State<Department> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        args.content['subject'],
+                        "Choose Department ",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            color: Colors.white60,
+                            fontWeight: FontWeight.w100,
                             fontSize: 26),
                       ),
                       CustomScrollView(

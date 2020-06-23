@@ -110,7 +110,7 @@ class _FacultyState extends State<ChooseFaculty> {
     // print(args.contentPassed);
     // print(args.departmentSelected);
     return Scaffold(
-      backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+      backgroundColor: Colors.black,
       body: _isLoading
           ? CircularProgressIndicator()
           : Padding(
@@ -127,8 +127,8 @@ class _FacultyState extends State<ChooseFaculty> {
                             Text(
                               "Choose Faculty",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white60,
+                                  fontWeight: FontWeight.w100,
                                   fontSize: 26),
                             ),
                             FutureBuilder(
