@@ -56,7 +56,7 @@ class _FacultySignupState extends State<FacultySignup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(241, 24, 52, 1),
+        backgroundColor: Color.fromRGBO(30, 30, 30, 1),
         body: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(),
@@ -86,19 +86,19 @@ class _FacultySignupState extends State<FacultySignup> {
                           },
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black38),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(36.0))),
                             // prefixIcon: const Icon(
                             //   Icons.person,
                             //   color: Colors.white,
                             // ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white60),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(36.0))),
                             labelText: "Faculty Id",
-
+                            labelStyle: TextStyle(color: Colors.white38),
                             contentPadding: new EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 50),
                           ),
@@ -118,18 +118,19 @@ class _FacultySignupState extends State<FacultySignup> {
                           },
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black38),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(36.0))),
                             // prefixIcon: const Icon(
                             //   Icons.person,
                             //   color: Colors.white,
                             // ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white60),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(36.0))),
                             labelText: "New Password",
+                            labelStyle: TextStyle(color: Colors.white38),
 
                             contentPadding: new EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 50),
@@ -150,18 +151,19 @@ class _FacultySignupState extends State<FacultySignup> {
                           },
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black38),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(36.0))),
                             // prefixIcon: const Icon(
                             //   Icons.person,
                             //   color: Colors.white,
                             // ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white60),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(36.0))),
                             labelText: "Re-Enter password",
+                            labelStyle: TextStyle(color: Colors.white38),
 
                             contentPadding: new EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 50),
@@ -183,7 +185,7 @@ class _FacultySignupState extends State<FacultySignup> {
                           ButtonTheme(
                             minWidth: 312,
                             height: 39,
-                            buttonColor: Colors.white,
+                            buttonColor: Colors.greenAccent,
                             child: RaisedButton(
                               shape: new RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25)),
@@ -192,12 +194,15 @@ class _FacultySignupState extends State<FacultySignup> {
                                 'Signup',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
-                                  color: Color.fromRGBO(241, 24, 52, 1),
+                                  color: Colors.black87,
                                   fontSize: 12,
                                 ),
                               ),
                             ),
                           ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         GestureDetector(
                             onTap: () {
                               Navigator.of(context)
@@ -205,7 +210,7 @@ class _FacultySignupState extends State<FacultySignup> {
                             },
                             child: Text(
                               'Login',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white60),
                             ))
                       ],
                     ),

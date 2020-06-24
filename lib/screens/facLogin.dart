@@ -67,7 +67,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
       child: ConstrainedBox(
         constraints: BoxConstraints(),
         child: Container(
-          color: Color.fromRGBO(241, 24, 52, 1),
+          color: Colors.black87,
           width: MediaQuery.of(context).copyWith().size.width,
           height: MediaQuery.of(context).copyWith().size.height,
           child: Form(
@@ -119,17 +119,18 @@ class _FacultyLoginState extends State<FacultyLogin> {
                             },
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black38),
+                                borderSide: BorderSide(color: Colors.white),
                               ),
                               // prefixIcon: const Icon(
                               //   Icons.person,
                               //   color: Colors.white,
                               // ),
                               border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: BorderSide(color: Colors.white60),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),
                               labelText: "Faculty I.D",
+                              labelStyle: TextStyle(color: Colors.white38),
                               contentPadding: new EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 50),
                             ),
@@ -152,10 +153,10 @@ class _FacultyLoginState extends State<FacultyLogin> {
                             },
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black38),
+                                borderSide: BorderSide(color: Colors.white),
                               ),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white60),
                                   borderRadius: const BorderRadius.all(
                                       const Radius.circular(36.0))),
                               // prefixIcon: const Icon(
@@ -163,6 +164,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
                               //   color: Colors.white,
                               // ),
                               labelText: "Password",
+                              labelStyle: TextStyle(color: Colors.white38),
                               contentPadding: new EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 50.0),
                             ),
@@ -177,7 +179,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
                           ButtonTheme(
                             minWidth: 312,
                             height: 39,
-                            buttonColor: Colors.white,
+                            buttonColor: Colors.lightGreen,
                             child: RaisedButton(
                               shape: new RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25)),
@@ -186,7 +188,7 @@ class _FacultyLoginState extends State<FacultyLogin> {
                                 'login',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
-                                  color: Color.fromRGBO(241, 24, 52, 1),
+                                  color: Colors.black87,
                                   fontSize: 12,
                                 ),
                               ),
