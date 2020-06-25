@@ -72,6 +72,34 @@ router.post(
   }
 );
 
+router.post(
+  "/fac/:fid",
+  passport.authenticate("faculty", { session: false }),
+  (req, res, error) => {
+    var identity;
+    console.log("hiii");
+    const newTicket = new Ticket({
+      student: req.body.student,
+      content: req.body.content,
+      subject: req.body.subject,
+      fid: req.params.fid,
+      image: req.body.image,
+      approved: 3,
+    });
+    Ticket.findOne({ fid: req.params.fid.toString })
+      .then((request) => {
+        newTicket
+          .save()
+          .then((ticket) => res.json(ticket))
+          .catch((errr) => console.log(errr));
+      })
+
+      .catch((erre) => res.json(erre));
+
+    // res.status(200).json(res);
+  }
+);
+
 router.get("/:id", (req, res) => {
   Ticket.findById(req.params.id)
     .then((ticket) => {

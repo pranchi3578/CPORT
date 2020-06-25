@@ -5,10 +5,11 @@ import '../widgets/grid.dart';
 
 class Department extends StatefulWidget {
   final Map<dynamic, dynamic> content;
+  final bool student;
 
   static const routeName = "/choose-dept";
 
-  Department({Key key, this.content}) : super(key: key);
+  Department({Key key, this.content, this.student}) : super(key: key);
 
   _DepartmentState createState() => _DepartmentState();
 }
@@ -16,6 +17,7 @@ class Department extends StatefulWidget {
 class _DepartmentState extends State<Department> {
   var argument = Map();
   static String _department = null;
+  dynamic _student = null;
   final items = {
     'IT': 'INFORMATION TECHNOLOGY',
     'CS': 'COMPUTER SCIENCE',
@@ -28,7 +30,11 @@ class _DepartmentState extends State<Department> {
   List<Widget> dept = List();
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    // TODO: implement initState	    super.didChangeDependencies();
+    final Department args = ModalRoute.of(context).settings.arguments;
+    _student = args.student;
+
     // TODO: implement initState
     print(widget.content);
 
@@ -39,8 +45,6 @@ class _DepartmentState extends State<Department> {
           chooseDept: (String) => selectedDept(String)));
     }
     print(dept);
-
-    super.initState();
   }
 
   selectedDept(dept) {
@@ -50,7 +54,10 @@ class _DepartmentState extends State<Department> {
     if (_department != null) print(_department);
     Navigator.pushNamed(context, ChooseFaculty.routeName,
         arguments: ChooseFaculty(
-            contentPassed: argument, departmentSelected: _department));
+          contentPassed: argument,
+          departmentSelected: _department,
+          student: _student,
+        ));
   }
 
   @override

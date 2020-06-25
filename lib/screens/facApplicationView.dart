@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 import '../widgets/viewAttachments.dart';
+import './chooseDept.dart';
 
 class FacApplicationView extends StatefulWidget {
   final dynamic contentPassed;
@@ -39,7 +40,14 @@ class _FacApplicationViewState extends State<FacApplicationView> {
     setState(() {
       _approved = value;
     });
-    showCustomDialogWithImage(context, value);
+    if (value == 1 || value == 2)
+      showCustomDialogWithImage(context, value);
+    else
+      Navigator.pushNamed(context, Department.routeName,
+          arguments: Department(
+            content: _content,
+            student: false,
+          ));
   }
 
   Future writeResponseToDb(int approved) async {

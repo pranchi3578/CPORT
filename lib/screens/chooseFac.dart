@@ -9,11 +9,14 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/gridForFaculty.dart';
+import './facStatus.dart';
 
 class ChooseFaculty extends StatefulWidget {
   final String departmentSelected;
+  final bool student;
   final Map<dynamic, dynamic> contentPassed;
-  ChooseFaculty({Key key, this.departmentSelected, this.contentPassed})
+  ChooseFaculty(
+      {Key key, this.departmentSelected, this.student, this.contentPassed})
       : super(key: key);
   static const routeName = "/choose-faculty";
   @override
@@ -23,6 +26,7 @@ class ChooseFaculty extends StatefulWidget {
 class _FacultyState extends State<ChooseFaculty> {
   @override
   var _department;
+  bool _student;
   Map<String, dynamic> _contentFetched = Map<String, dynamic>();
   var _isLoading = false;
   var _pfId;
@@ -36,6 +40,7 @@ class _FacultyState extends State<ChooseFaculty> {
     final ChooseFaculty args = ModalRoute.of(context).settings.arguments;
     _department = args.departmentSelected;
     _contentFetched = args.contentPassed;
+    _student = args.student;
     // print("_argument value");
     // print(args.contentPassed);
     // print(_department);
@@ -43,9 +48,16 @@ class _FacultyState extends State<ChooseFaculty> {
   }
 
   Future _fetchpfId() async {
-    final url = 'http://' +
-        GloabalVariables.ip +
-        ':5000/api/students/getfId/$_department';
+    dynamic url;
+    if (_student == true)
+      url = 'http://' +
+          GloabalVariables.ip +
+          ':5000/api/students/getfId/$_department';
+    else
+      url = 'http://' +
+          GloabalVariables.ip +
+          ':5000/api/faculties/getfId/$_department';
+
     try {
       setState(() {
         _isLoading = true;
@@ -80,17 +92,25 @@ class _FacultyState extends State<ChooseFaculty> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.pushNamed(context, Status.routeName);
+    _student
+        ? Navigator.pushNamed(context, Status.routeName)
+        : Navigator.pushNamed(
+            context, FacStatus.routeName); // forwarding application
   }
 
   @override
   Future writeToDb() async {
-    final url = "http://" + GloabalVariables.ip + ':5000/api/tickets/$_pfId';
+    var url;
+    if (_student == true)
+      url = "http://" + GloabalVariables.ip + ':5000/api/tickets/$_pfId';
+    else
+      url = "http://" + GloabalVariables.ip + ':5000/api/tickets/fac/$_pfId';
     // print('mmmfffc');
     print(json.encode(_contentFetched));
     // List<String> i = [];
     // _contentFetched['image'].forEach((item) => i.add(item.toString()));
     // print(i);
+
     try {
       Dio dio = Dio();
 
