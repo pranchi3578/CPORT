@@ -57,6 +57,7 @@ router.post(
       fid: req.params.fid,
       image: req.body.image,
       approved: 3,
+      date: new Date(),
     });
     Ticket.findOne({ student: req.user.id })
       .then((request) => {
@@ -76,7 +77,7 @@ router.post(
   "/fac/:fid",
   passport.authenticate("faculty", { session: false }),
   (req, res, error) => {
-    var identity;
+    var date = new Date();
     console.log("hiii");
     const newTicket = new Ticket({
       student: req.body.student,
@@ -85,6 +86,7 @@ router.post(
       fid: req.params.fid,
       image: req.body.image,
       approved: 3,
+      date: new Date(),
     });
     Ticket.findOne({ fid: req.params.fid.toString })
       .then((request) => {

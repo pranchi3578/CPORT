@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardStatus extends StatefulWidget {
   final List<dynamic> tickets;
@@ -25,7 +26,10 @@ class _CardStatusState extends State<CardStatus> {
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              item['date'] != null ? item['date'] : "-",
+                              item['date'] != null
+                                  ? DateFormat('dd-MM-yyyy')
+                                      .format(DateTime.parse(item['date']))
+                                  : "-",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 12,
@@ -114,7 +118,10 @@ class _CardStatusState extends State<CardStatus> {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  item['date'] != null ? item['date'] : "-",
+                                  item['date'] != null
+                                      ? DateFormat('dd-MM-yyyy')
+                                          .format(DateTime.parse(item['date']))
+                                      : "-",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 12,
@@ -204,7 +211,10 @@ class _CardStatusState extends State<CardStatus> {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  item['date'] != null ? item['date'] : "-",
+                                  item['date'] != null
+                                      ? DateFormat('dd-MM-yyyy')
+                                          .format(DateTime.parse(item['date']))
+                                      : "-",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 12,

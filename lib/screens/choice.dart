@@ -43,7 +43,7 @@ class _ChoiceState extends State<Choice> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      color: Color.fromRGBO(241, 24, 52, 1),
+      color: Colors.black87,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -54,7 +54,7 @@ class _ChoiceState extends State<Choice> {
                   style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 25,
-                      color: Color.fromRGBO(241, 24, 52, 1),
+                      color: Colors.black87,
                       fontWeight: FontWeight.bold)),
             ),
             height: MediaQuery.of(context).copyWith().size.width / (360 / 90),
