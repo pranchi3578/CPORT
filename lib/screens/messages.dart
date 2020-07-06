@@ -28,7 +28,7 @@ class _MessagesState extends State<Messages> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 54),
                         child: Text(
-                          "Messages",
+                          "Message",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

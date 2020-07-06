@@ -1,3 +1,3 @@
 class GloabalVariables {
-  static const ip = '192.168.43.5';
+  static const ip = '192.168.42.179';
 }

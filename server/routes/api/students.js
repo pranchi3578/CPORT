@@ -161,5 +161,18 @@ router.get(
       .catch((error) => console.log(error));
   }
 );
-
+router.get(
+  "/messages/getfid",
+  passport.authenticate("student", { session: false }),
+  (req, res) => {
+    Ticket.findOne({})
+      .distinct("fid")
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  }
+);
 module.exports = router;

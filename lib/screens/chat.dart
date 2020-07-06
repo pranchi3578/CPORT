@@ -48,7 +48,7 @@ class _MyChatState extends State<MyChatScreen> {
               maxLines: null,
               keyboardType: TextInputType.multiline,
               // minLines: 10,
-              style: TextStyle(color: Color(0xffF11834)),
+              style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
@@ -73,7 +73,7 @@ class _MyChatState extends State<MyChatScreen> {
 
     return new Scaffold(
       body: new Container(
-        color: Color.fromRGBO(241, 24, 52, 1),
+        color: Colors.black87,
         // width: double.infinity,
         height: double.infinity,
         child: Stack(
@@ -205,7 +205,7 @@ class Message extends StatelessWidget {
                 Text(
                   message,
                   style: TextStyle(
-                    color: Color(0xffF11834),
+                    color: Colors.black,
                     fontSize: 12,
                   ),
                   textAlign: TextAlign.center,
@@ -214,7 +214,7 @@ class Message extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     dateTime,
-                    style: TextStyle(fontSize: 10, color: Color(0xffF11834)),
+                    style: TextStyle(fontSize: 10, color: Colors.black54),
                   ),
                 ),
               ],
